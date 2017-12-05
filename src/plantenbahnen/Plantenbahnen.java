@@ -16,6 +16,7 @@ import javafx.stage.Stage;
  * @author stefan
  */
 public class Plantenbahnen extends Application {
+    // Hallo das ist ein Test
     
     @Override
     public void start(Stage stage) throws Exception {
