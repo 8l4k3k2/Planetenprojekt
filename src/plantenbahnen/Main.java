@@ -15,7 +15,7 @@ import javafx.stage.Stage;
  *
  * @author stefan, joshua, jonathan
  */
-public class Plantenbahnen extends Application {
+public class Main extends Application {
     // Hallo das ist ein Test
     //test2
     //test3
