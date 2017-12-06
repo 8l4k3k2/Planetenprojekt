@@ -2,3 +2,9 @@
 .idea/
 .idea/*
 .idea
+out
+out/
+out/*
+nbproject
+nbproject/
+nbproject/*

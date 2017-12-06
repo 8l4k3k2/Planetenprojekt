@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author stefan
+ * @author stefan, joshua, jonathan
  */
 public class Plantenbahnen extends Application {
     // Hallo das ist ein Test
