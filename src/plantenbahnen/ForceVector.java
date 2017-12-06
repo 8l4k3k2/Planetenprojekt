@@ -5,8 +5,10 @@ public class ForceVector{
     private double force;
 
     ForceVector(double[] directionVector,double force){
-        this.directionVector = directionVector;
         this.force = force;
+        double n = this.force / Math.sqrt(Math.pow(directionVector[0],2)+Math.pow(directionVector[1],2));
+        this.directionVector[0]=directionVector[0]*n;
+        this.directionVector[1]=directionVector[1]*n;
 
     }
 
@@ -16,11 +18,16 @@ public class ForceVector{
 
     }
 
+    ForceVector(){
+        this.directionVector = new double[]{0,0};
+        this.force = 0.0;
+    }
+
     public double[] getDirectionVector() {
-        return directionVector;
+        return this.directionVector;
     }
 
     public double getForce() {
-        return force;
+        return this.force;
     }
 }
