@@ -1,6 +1,5 @@
 package plantenbahnen;
 
-import javax.sound.midi.Track;
 import java.util.ArrayList;
 
 public class Berechnungen implements Runnable{
@@ -14,6 +13,7 @@ public class Berechnungen implements Runnable{
 
     @Override
     public void run(){
+        SpaceObject a = universe.get(0);
         int n=0;
         while (true){
             if (n>1000){
