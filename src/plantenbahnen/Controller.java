@@ -40,7 +40,10 @@ public class Controller implements Initializable {
         SpaceObject earth = new SpaceObject(new double[]{450,450}, 500000000000.0, nF, 15, 10, new int[]{0,255,0});
         
         
-        Berechnungen.berechneBahn(universe);
+        //Berechnungen.berechneBahn(universe);
+        Berechnungen startCalc;
+        startCalc = new Berechnungen(universe);
+        startCalc.start();
         
         while ( true ) {
             zeichnePlaneten(universe);
