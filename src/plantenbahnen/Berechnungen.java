@@ -1,6 +1,7 @@
 package plantenbahnen;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class Berechnungen implements Runnable{
     private Thread t;
@@ -16,11 +17,18 @@ public class Berechnungen implements Runnable{
         SpaceObject a = universe.get(0);
         int n=0;
         while (true){
-            if (n>1000){
+            if (!true){
                 break;
             }
             n+=1;
-            System.out.println("halo i bims 1 rechner");
+            System.out.println("Thread laeuft");
+            try{
+            TimeUnit.SECONDS.sleep(1);
+            }
+            catch (Exception ex){
+                Thread t = Thread.currentThread();
+                t.getUncaughtExceptionHandler().uncaughtException(t, ex);
+            }
         }
     }
 
