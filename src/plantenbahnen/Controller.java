@@ -33,11 +33,11 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        SpaceObject sun = new SpaceObject(new double[]{600,600},59700000000000.4,new ForceVector(),50,10,new int[]{0,0,255});
+        SpaceObject sun = new SpaceObject(600,600,59700000000000.4,new Vector(),50,10,new int[]{0,0,255});
         this.universe.add(sun);
 
-        ForceVector nF = new ForceVector(new double[]{150,150},3000000);
-        SpaceObject earth = new SpaceObject(new double[]{450,450}, 500000000000.0, nF, 15, 10, new int[]{0,255,0});
+        Vector nF = new Vector(150,150,3000000);
+        SpaceObject earth = new SpaceObject(450,450, 500000000000.0, nF, 15, 10, new int[]{0,255,0});
         
         
         //Berechnungen.berechneBahn(universe);

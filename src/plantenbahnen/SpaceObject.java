@@ -1,17 +1,18 @@
 package plantenbahnen;
 
 public class SpaceObject {
-    private double[] coordinates = new double[2];
+    private double x,y;
     private double mass;
-    private ForceVector fVector;
+    private Vector velocityVector;
     private int size;
     private int thickness;
     private int[] colour;
 
-    SpaceObject(double[] coordinates, double mass, ForceVector fVector,int size,int thickness, int[] colour) {
-        this.coordinates = coordinates;
+    SpaceObject(double x,double y, double mass, Vector velocityVector, int size, int thickness, int[] colour) {
+        this.x=x;
+        this.y=y;
         this.mass = mass;
-        this.fVector = fVector;
+        this.velocityVector = velocityVector;
 
 
         this.size = size; //10;
@@ -19,12 +20,12 @@ public class SpaceObject {
         this.colour = colour; //new int[]{0, 0, 255};
     }
 
-    public void setfVector(ForceVector fVector) {
-        this.fVector = fVector;
+    public void setVelocityVector(Vector velocityVector) {
+        this.velocityVector = velocityVector;
     }
 
-    public ForceVector getfVector() {
-        return this.fVector;
+    public Vector getVelocityVector() {
+        return this.velocityVector;
     }
 
     public void setSize(int size) {
@@ -51,12 +52,18 @@ public class SpaceObject {
         return colour;
     }
 
-    public void setCoordinates(double[] coordinates) {
-        this.coordinates = coordinates;
+    public double getx(){
+        return this.x;
+    }
+    public void setx(double value){
+        this.x=value;
+    }
+    public double gety(){
+        return this.y;
     }
 
-    public double[] getCoordinates() {
-        return this.coordinates;
+    public void sety(double value){
+        this.y=value;
     }
 
     public double getMass() {

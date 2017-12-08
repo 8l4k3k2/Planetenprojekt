@@ -1,7 +1,6 @@
 package plantenbahnen;
 
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 public class Berechnungen implements Runnable{
     private Thread t;
@@ -14,6 +13,10 @@ public class Berechnungen implements Runnable{
 
     @Override
     public void run(){
+        for (SpaceObject sO:universe){
+            moveall(sO);
+        }
+        /*
         SpaceObject a = universe.get(0);
         int n=0;
         while (true){
@@ -30,6 +33,27 @@ public class Berechnungen implements Runnable{
                 t.getUncaughtExceptionHandler().uncaughtException(t, ex);
             }
         }
+        */
+    }
+
+    private void moveall(SpaceObject sO){
+        double G = 6.67408*Math.pow(10,-11); //Gravitationskonstante
+        double r;
+        double force;
+        double[] directionVector;
+        double a; //Beschleunigung
+        for (SpaceObject planet:this.universe){
+            if (planet!=sO){
+                r = Math.sqrt(Math.pow(planet.getx()-sO.getx(),2)+Math.pow(planet.gety()-planet.gety(),2)); //distance between two SpaceObjects
+                force = G*((planet.getMass()*sO.getMass())/Math.pow(r,2)); //Newtons Gravitationsgesetz
+                directionVector = new double[]{-xsO,yP-ysO};
+                totalForceOldVector.add(new oldVector(directionVector,force));
+
+            }
+        }
+        a= totalForceOldVector.getNorm()/sO.getMass();
+
+
     }
 
     void start(){
