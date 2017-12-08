@@ -49,6 +49,9 @@ public class Controller implements Initializable {
     }    
     
     public void zeichnePlaneten(ArrayList<SpaceObject> universe) {
-        // To do by Stefan
+        
+        
+        
+        
     }    
 }
