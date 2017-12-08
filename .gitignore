@@ -8,4 +8,9 @@ out/*
 nbproject
 nbproject/
 nbproject/*
-
+build
+build/
+build/*
+dist
+dist/
+dist/*

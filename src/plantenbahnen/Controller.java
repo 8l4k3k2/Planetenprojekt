@@ -44,12 +44,9 @@ public class Controller implements Initializable {
         Berechnungen startCalc;
         startCalc = new Berechnungen(universe);
         startCalc.start();
-<<<<<<< HEAD
-        
         // Ich bin so kluk!
-=======
         // stephan is doof
->>>>>>> 2e561c6c44b41ffa388a8587d5030469b27477d1
+        // asd
         while ( true ) {
             zeichnePlaneten(universe);
         }
