@@ -61,7 +61,7 @@ public class Berechnungen implements Runnable{
         totalAccelVector.multiplyToSelf(G);
         totalAccelVector.multiplyToSelf(timedif);
         Vector temp = sO.getVelocityVector().add(totalAccelVector);
-        sO.setVelocityVectornew(temp);
+        sO.setVelocityVector1(temp);
 
 
 
