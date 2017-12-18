@@ -47,9 +47,12 @@ public class Controller implements Initializable {
         // Ich bin so kluk!
         // stephan is doof
         // asd
+
         while ( true ) {
             zeichnePlaneten(universe);
+            System.out.println(earth.getX()+earth.getY());
         }
+
         
     }    
     

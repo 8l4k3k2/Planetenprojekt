@@ -1,10 +1,13 @@
 package plantenbahnen;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 
 public class Berechnungen implements Runnable{
     private Thread t;
     private ArrayList<SpaceObject> universe;
+    private double timedif;
 
     Berechnungen(ArrayList<SpaceObject> universe) {
         // To do by Jonathan
@@ -13,8 +16,14 @@ public class Berechnungen implements Runnable{
 
     @Override
     public void run(){
+        Instant start,end;
+        System.out.println("asdasd");
+        start = Instant.now();
         for (SpaceObject sO:universe){
+            end = Instant.now();
+            this.timedif = Duration.between(start,end).toNanos()/Math.pow(10,9);
             moveall(sO);
+            start=end;
         }
         /*
         SpaceObject a = universe.get(0);
@@ -32,7 +41,7 @@ public class Berechnungen implements Runnable{
                 Thread t = Thread.currentThread();
                 t.getUncaughtExceptionHandler().uncaughtException(t, ex);
             }
-        }
+        }**
         */
     }
 
@@ -50,6 +59,9 @@ public class Berechnungen implements Runnable{
             }
         }
         totalAccelVector.multiplyToSelf(G);
+        totalAccelVector.multiplyToSelf(timedif);
+        Vector temp = sO.getVelocityVector().add(totalAccelVector);
+        sO.setVelocityVectornew(temp);
 
 
 

@@ -2,10 +2,10 @@ package plantenbahnen;
 
 public class SpaceObject {
     private double x,y;
-    private double x1,y1;
+    private double xnew,ynew;
     private double mass;
     private Vector velocityVector;
-    private Vector velocityVector1;
+    private Vector velocityVectornew;
     private int size;
     private int thickness;
     private int[] colour;
@@ -15,7 +15,6 @@ public class SpaceObject {
         this.y=y;
         this.mass = mass;
         this.velocityVector = velocityVector;
-
 
         this.size = size; //10;
         this.thickness = thickness ;//0;
@@ -57,11 +56,38 @@ public class SpaceObject {
     public double getx(){
         return this.x;
     }
-    public void setx(double value){
-        this.x=value;
+
+    public double getX() {
+        return x;
     }
-    public double gety(){
-        return this.y;
+
+    public double getY() {
+        return y;
+    }
+
+    public double getXnew() {
+        return xnew;
+    }
+
+    public double getYnew() {
+        return ynew;
+    }
+
+    public Vector getVelocityVectornew() {
+        return velocityVectornew;
+    }
+
+    public void setXnew(double xnew) {
+
+        this.xnew = xnew;
+    }
+
+    public void setYnew(double ynew) {
+        this.ynew = ynew;
+    }
+
+    public void setVelocityVectornew(Vector velocityVectornew) {
+        this.velocityVectornew = velocityVectornew;
     }
 
     public void sety(double value){
