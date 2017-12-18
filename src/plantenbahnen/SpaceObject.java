@@ -5,8 +5,10 @@ import javafx.scene.shape.Circle;
 public class SpaceObject extends Circle {
     
     private double x,y;
+    private double x1,y1;
     private double mass;
     private Vector velocityVector;
+    private Vector velocityVector1;
     private int size;
     private int thickness;
     private int[] colour;
@@ -80,5 +82,9 @@ public class SpaceObject extends Circle {
     
     public String getName() {
         return this.name;
+    }
+    
+    public Vector getPositionVector(){
+        return new Vector(this.x,this.y);
     }
 }

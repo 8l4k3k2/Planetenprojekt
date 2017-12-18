@@ -38,20 +38,19 @@ public class Berechnungen implements Runnable{
     /*
     private void moveall(SpaceObject sO){
         double G = 6.67408*Math.pow(10,-11); //Gravitationskonstante
-        double r;
-        double force;
-        double[] directionVector;
-        double a; //Beschleunigung
+        Vector totalAccelVector = new Vector();
         for (SpaceObject planet:this.universe){
             if (planet!=sO){
-                r = Math.sqrt(Math.pow(planet.getx()-sO.getx(),2)+Math.pow(planet.gety()-planet.gety(),2)); //distance between two SpaceObjects
-                force = G*((planet.getMass()*sO.getMass())/Math.pow(r,2)); //Newtons Gravitationsgesetz
-                directionVector = new double[]{-xsO,yP-ysO};
-                totalForceOldVector.add(new oldVector(directionVector,force));
-
+                //newtons Gravitationsgesetz
+                Vector zaehler = planet.getPositionVector().subtract(sO.getPositionVector());
+                double nenner = Math.pow(zaehler.norm(),3);
+                Vector temp = zaehler.divide(nenner);
+                temp = temp.multiply(planet.getMass());
+                totalAccelVector.addToSelf(temp);
             }
         }
-        a= totalForceOldVector.getNorm()/sO.getMass();
+        totalAccelVector.multiplyToSelf(G);
+
 
 
     }

@@ -29,12 +29,22 @@ public class Vector {
         return new Vector(this.x+newV.x(),this.y+newV.y());
     }
 
+    public void addToSelf(Vector newV){
+        this.x+=newV.x();
+        this.y+=newV.y();
+    }
+
     public Vector subtract(Vector newV){
         return new Vector(this.x-newV.x(),this.y-newV.y());
     }
 
     public Vector multiply(double value){
         return new Vector(this.x*value,this.y*value);
+    }
+
+    public void multiplyToSelf(double value){
+        this.x=this.x*value;
+        this.y=this.y*value;
     }
     public Vector divide(double value){
         return new Vector(this.x/value,this.y/value);
