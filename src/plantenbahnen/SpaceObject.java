@@ -1,21 +1,26 @@
 package plantenbahnen;
 
-public class SpaceObject {
+import javafx.scene.shape.Circle;
+
+public class SpaceObject extends Circle {
+    
     private double x,y;
-    private double xnew,ynew;
+    private double x1,y1;
     private double mass;
     private Vector velocityVector;
-    private Vector velocityVectornew;
+    private Vector velocityVector1;
     private int size;
     private int thickness;
     private int[] colour;
+    private String name;
 
-    SpaceObject(double x,double y, double mass, Vector velocityVector, int size, int thickness, int[] colour) {
-        this.x=x;
-        this.y=y;
+    SpaceObject(String name, double x, double y, double mass, Vector velocityVector, int size, int thickness, int[] colour) {
+        this.x = x;
+        this.y = y;
         this.mass = mass;
         this.velocityVector = velocityVector;
 
+        this.name = name;
         this.size = size; //10;
         this.thickness = thickness ;//0;
         this.colour = colour; //new int[]{0, 0, 255};
@@ -56,38 +61,11 @@ public class SpaceObject {
     public double getx(){
         return this.x;
     }
-
-    public double getX() {
-        return x;
+    public void setx(double value){
+        this.x=value;
     }
-
-    public double getY() {
-        return y;
-    }
-
-    public double getXnew() {
-        return xnew;
-    }
-
-    public double getYnew() {
-        return ynew;
-    }
-
-    public Vector getVelocityVectornew() {
-        return velocityVectornew;
-    }
-
-    public void setXnew(double xnew) {
-
-        this.xnew = xnew;
-    }
-
-    public void setYnew(double ynew) {
-        this.ynew = ynew;
-    }
-
-    public void setVelocityVectornew(Vector velocityVectornew) {
-        this.velocityVectornew = velocityVectornew;
+    public double gety(){
+        return this.y;
     }
 
     public void sety(double value){
@@ -97,7 +75,15 @@ public class SpaceObject {
     public double getMass() {
         return this.mass;
     }
-
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public String getName() {
+        return this.name;
+    }
+    
     public Vector getPositionVector(){
         return new Vector(this.x,this.y);
     }

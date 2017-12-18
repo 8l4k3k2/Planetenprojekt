@@ -6,9 +6,16 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="200" prefWidth="320" xmlns:fx="http://javafx.com/fxml/1" fx:controller="plantenbahnen.Controller">
-    <children>
-        <Button layoutX="126" layoutY="90" text="Click Me!" onAction="#handleButtonAction" fx:id="button" />
-        <Label layoutX="126" layoutY="120" minHeight="16" minWidth="69" fx:id="label" />
-    </children>
+<AnchorPane fx:id="AnchorPane" prefHeight="700.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="plantenbahnen.Controller">
+   <children>
+      <Pane fx:id="paneDraw" prefHeight="700.0" prefWidth="800.0">
+         <children>
+            <Pane fx:id="paneControls" prefHeight="89.0" prefWidth="174.0">
+               <children>
+                  <Button fx:id="buttonStartSimulation" layoutX="26.0" layoutY="21.0" mnemonicParsing="false" onAction="#buttonStartSimulation" text="Start simulation" />
+                  <Slider fx:id="slider_set_dt" layoutX="17.0" layoutY="59.0" />
+               </children>
+            </Pane>
+         </children></Pane>
+   </children>
 </AnchorPane>
