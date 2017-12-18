@@ -1,20 +1,24 @@
 package plantenbahnen;
 
-public class SpaceObject {
+import javafx.scene.shape.Circle;
+
+public class SpaceObject extends Circle {
+    
     private double x,y;
     private double mass;
     private Vector velocityVector;
     private int size;
     private int thickness;
     private int[] colour;
+    private String name;
 
-    SpaceObject(double x,double y, double mass, Vector velocityVector, int size, int thickness, int[] colour) {
-        this.x=x;
-        this.y=y;
+    SpaceObject(String name, double x, double y, double mass, Vector velocityVector, int size, int thickness, int[] colour) {
+        this.x = x;
+        this.y = y;
         this.mass = mass;
         this.velocityVector = velocityVector;
 
-
+        this.name = name;
         this.size = size; //10;
         this.thickness = thickness ;//0;
         this.colour = colour; //new int[]{0, 0, 255};
@@ -68,5 +72,13 @@ public class SpaceObject {
 
     public double getMass() {
         return this.mass;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public String getName() {
+        return this.name;
     }
 }

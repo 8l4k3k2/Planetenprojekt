@@ -14,7 +14,7 @@ public class Berechnungen implements Runnable{
     @Override
     public void run(){
         for (SpaceObject sO:universe){
-            moveall(sO);
+            //moveall(sO);
         }
         /*
         SpaceObject a = universe.get(0);
@@ -35,7 +35,7 @@ public class Berechnungen implements Runnable{
         }
         */
     }
-
+    /*
     private void moveall(SpaceObject sO){
         double G = 6.67408*Math.pow(10,-11); //Gravitationskonstante
         double r;
@@ -55,7 +55,7 @@ public class Berechnungen implements Runnable{
 
 
     }
-
+    */
     void start(){
         //System.out.println("Startthread");
         if (t==null){
