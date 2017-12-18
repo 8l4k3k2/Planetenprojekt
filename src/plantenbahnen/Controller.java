@@ -53,7 +53,7 @@ public class Controller implements Initializable {
         calcThread = new Thread(myCalc);
 
         Draw.drawPlanets(universe, paneDraw);
-        
+
         slider_set_dt.setMin(1);
         slider_set_dt.setMax(3);
         slider_set_dt.setValue(1);
@@ -67,9 +67,9 @@ public class Controller implements Initializable {
                 timeline.getKeyFrames().add(new KeyFrame(Duration.ZERO, new KeyValue(slider.valueProperty(), 0)));
             }
         });*/
-    }    
-    
-    @FXML private void buttonStartSimulation(ActionEvent event) throws InterruptedException {    
+    }
+
+    @FXML private void buttonStartSimulation(ActionEvent event) throws InterruptedException {
         calcThread.start();
 
         /*
