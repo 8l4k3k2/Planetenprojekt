@@ -89,8 +89,9 @@ public class Controller implements Initializable {
         //calcThread.start();
 
         //Berechnungen.berechneBahn(universe);
-        Berechnungen startCalc;
-        startCalc = new Berechnungen(universe);
+        //Berechnungen startCalc;
+        Berechnungen startCalc = new Berechnungen(universe);
+
         startCalc.start();
 
         /*

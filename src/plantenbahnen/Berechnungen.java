@@ -7,6 +7,10 @@ public class Berechnungen implements Runnable{
     private ArrayList<SpaceObject> universe;
     private double timedif;
     private boolean runtime;
+    private double velocityFactor=1;
+    private double requestedVF;
+    private boolean vFrequest=false;
+
 
     Berechnungen(ArrayList<SpaceObject> universe) {
         this.universe = universe;
@@ -14,15 +18,20 @@ public class Berechnungen implements Runnable{
 
     @Override
     public void run(){
-        //Instant start,end;
         long start, end;
         start = System.nanoTime();
         this.runtime=true;
         while (this.runtime) {
+
+            if (vFrequest){ //manual lock
+                velocityFactor=requestedVF;
+                vFrequest=false;
+            }
+
             for (SpaceObject sO : universe) {
                 end = System.nanoTime();
                 this.timedif = (end-start) / Math.pow(10, 9);
-                this.timedif *= 100.0;
+                this.timedif *= velocityFactor;
                 moveall(sO);
                 start = end;
             }
@@ -74,6 +83,15 @@ public class Berechnungen implements Runnable{
     
     void stop(){
         this.runtime=false;
+    }
+
+    public void setVelocityFactor(double velocityFactor) {
+        this.requestedVF = velocityFactor;
+        this.vFrequest=true;
+    }
+
+    public double getVelocityFactor() {
+        return this.velocityFactor;
     }
 
     /*
