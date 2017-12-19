@@ -20,7 +20,6 @@ public class Berechnungen implements Runnable{
 
     @Override
     public void run(){
-        System.out.println("testtesttest");
         long start, end;
         start = System.nanoTime();
         this.runtime=true;

@@ -37,6 +37,10 @@ public class Controller implements Initializable {
     }));
     Berechnungen startCalc = new Berechnungen(universe);
 
+    public void onCloseEvent(){
+        startCalc.stop();
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -46,6 +50,10 @@ public class Controller implements Initializable {
         Vector nF = new Vector(-5,2,25);
         SpaceObject earth = new SpaceObject("earth", 450, 450, 500000000000.0, nF, 15, 10, new int[]{0,255,0}, 10);
         universe.add(earth);
+
+        Vector nF2 = new Vector(5,2,25);
+        SpaceObject moon = new SpaceObject("moon", 350, 550, 50000000000.0, nF2, 15, 10, new int[]{0,255,0}, 10);
+        universe.add(moon);
         
         //printausgabe
         /*
