@@ -2,6 +2,8 @@ package plantenbahnen;
 
 import java.util.ArrayList;
 
+import static java.lang.Thread.State.TERMINATED;
+
 public class Berechnungen implements Runnable{
     private Thread t;
     private ArrayList<SpaceObject> universe;
@@ -76,12 +78,12 @@ public class Berechnungen implements Runnable{
     }
 
     void start(){
-        System.out.println("Startthread");
         if (t==null){
             t = new Thread (this);
             t.start();
         }
-        else{
+        if (t.getState()==TERMINATED) {
+            t=new Thread(this);
             t.start();
         }
     }
