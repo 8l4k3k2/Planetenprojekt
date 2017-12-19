@@ -3,6 +3,7 @@ package plantenbahnen;
 import java.util.ArrayList;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Line;
 
 public class Draw {
 
@@ -30,6 +31,11 @@ public class Draw {
             so.setRadius(2);
             //so.setColour(Color.BLACK);
             pane.getChildren().add(so);
+            
+            // Draw the tail
+            //for (Line line: so.getTail()) {
+            //    pane.getChildren().add(line);
+            //}
         }
     }
 }

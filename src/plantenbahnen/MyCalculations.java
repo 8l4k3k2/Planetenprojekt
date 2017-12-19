@@ -17,6 +17,7 @@ public class MyCalculations implements Runnable {
             for (SpaceObject so: universe) {
                 so.setx(so.getx() + toAdd);
                 so.sety(so.gety() + toAdd);
+                so.addToTail(so.getx(), so.gety());
             }
             if ( toAdd > 0.0 ) {
                 toAdd = -300.0;
