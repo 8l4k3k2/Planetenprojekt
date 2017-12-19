@@ -39,10 +39,10 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        SpaceObject sun = new SpaceObject("sun", 600, 600, 59700000000000.4, new Vector(), 50, 10, new int[]{0,0,255});
+        SpaceObject sun = new SpaceObject("sun", 600, 600, 5970000000000000.4, new Vector(), 50, 10, new int[]{0,0,255});
         universe.add(sun);
 
-        Vector nF = new Vector(150,150,3000000);
+        Vector nF = new Vector(75,-12,15);
         SpaceObject earth = new SpaceObject("earth", 450, 450, 500000000000.0, nF, 15, 10, new int[]{0,255,0});
         universe.add(earth);
         
@@ -51,8 +51,9 @@ public class Controller implements Initializable {
         startCalc = new Berechnungen(universe);
         startCalc.start();
 
+
         while (true){
-            System.out.println(universe.get(1).getX()+","+universe.get(1).getY());
+            System.out.println((int) universe.get(1).getX()+","+(int) universe.get(1).getY()+"     "+universe.get(0).getPositionVector().norm(universe.get(1).getPositionVector()));
             try{
                 TimeUnit.SECONDS.sleep(1);
             }
@@ -61,6 +62,7 @@ public class Controller implements Initializable {
                 t.getUncaughtExceptionHandler().uncaughtException(t, ex);
             }
         }
+
 
         /*
         MyCalculations myCalc = new MyCalculations(universe);

@@ -3,6 +3,8 @@ package plantenbahnen;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class Berechnungen implements Runnable{
     private Thread t;
@@ -59,6 +61,7 @@ public class Berechnungen implements Runnable{
             if (planet!=sO){
                 //newtons Gravitationsgesetz
                 Vector zaehler = planet.getPositionVector().subtract(sO.getPositionVector());
+
                 double nenner = Math.pow(zaehler.norm(),3);
                 Vector temp = zaehler.divide(nenner);
                 temp = temp.multiply(planet.getMass());
@@ -68,6 +71,7 @@ public class Berechnungen implements Runnable{
         totalAccelVector.multiplyToSelf(G);
         totalAccelVector.multiplyToSelf(timedif);
         Vector temp = sO.getVelocityVector().add(totalAccelVector);
+
         sO.setVelocityVectorNew(temp);
 
         sO.addToNewPositionVector(sO.getVelocityVectorNew().multiply(timedif));

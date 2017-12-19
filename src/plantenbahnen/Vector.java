@@ -24,6 +24,10 @@ public class Vector {
     public double norm(){
         return Math.sqrt(Math.pow(this.x,2)+Math.pow(this.y,2));
     }
+    public double norm(Vector v){
+        return Math.sqrt(Math.pow((this.x-v.x()),2)+Math.pow((this.y-v.y()),2));
+
+    }
 
     public Vector add(Vector newV){
         return new Vector(this.x+newV.x(),this.y+newV.y());
