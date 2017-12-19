@@ -7,7 +7,7 @@ public class Berechnungen implements Runnable{
     private ArrayList<SpaceObject> universe;
     private double timedif;
     private boolean runtime;
-    private double velocityFactor=1;
+    private double velocityFactor=100;
     private double requestedVF;
     private boolean vFrequest=false;
 
@@ -18,6 +18,7 @@ public class Berechnungen implements Runnable{
 
     @Override
     public void run(){
+        System.out.println("testtesttest");
         long start, end;
         start = System.nanoTime();
         this.runtime=true;
@@ -41,6 +42,7 @@ public class Berechnungen implements Runnable{
                 sO.setNewCoordinates();
             }
         }
+        t.stop();
     }
 
     private void moveall(SpaceObject sO){
@@ -74,9 +76,12 @@ public class Berechnungen implements Runnable{
     }
 
     void start(){
-        //System.out.println("Startthread");
+        System.out.println("Startthread");
         if (t==null){
             t = new Thread (this);
+            t.start();
+        }
+        else{
             t.start();
         }
     }

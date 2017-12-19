@@ -32,6 +32,7 @@ public class Draw {
         for (SpaceObject so: universe) {
             
             // Draw the tail
+            /*
             nLines = so.getTail().size();
             i = 0;
             for (Line line: so.getTail()) {
@@ -43,7 +44,7 @@ public class Draw {
                 
                 i++;
             }
-
+            */
             // Draw the planets
             so.setCenterX(so.getX() * scaleFactor + paneHalfWidth);
             so.setCenterY(so.getY() * scaleFactor + paneHalfHeight);

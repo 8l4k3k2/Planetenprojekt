@@ -27,7 +27,6 @@ public class Controller implements Initializable {
     @FXML private TextField textField_tailLenght;
     
     private ArrayList<SpaceObject> universe = new ArrayList<>();
-    private Thread calcThread;
     Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.03), new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent event) {
@@ -61,9 +60,6 @@ public class Controller implements Initializable {
         }
         */
         
-        //MyCalculations myCalc = new MyCalculations(universe);
-        //calcThread = new Thread(myCalc);
-
         Draw.drawPlanets(universe, paneDraw);
 
         slider_sim_speed.setMin(1);
@@ -83,8 +79,7 @@ public class Controller implements Initializable {
     }
 
     @FXML private void buttonStartSimulation(ActionEvent event) throws InterruptedException {
-
-        //calcThread.start();
+        
         startCalc.start();
 
         //timeline.getKeyFrames().add(new KeyFrame(Duration.ZERO, new KeyValue(slider.valueProperty(), 0)));
@@ -93,14 +88,7 @@ public class Controller implements Initializable {
     }    
 
     @FXML private void buttonStopSimulation(ActionEvent event) throws InterruptedException {
-
-        //calcThread.start();
         startCalc.stop();
-
         timeline.stop();
-        
-        //timeline.getKeyFrames().add(new KeyFrame(Duration.ZERO, new KeyValue(slider.valueProperty(), 0)));
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
     }    
 }
