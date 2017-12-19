@@ -28,31 +28,29 @@ public class Controller implements Initializable {
 
     private ArrayList<SpaceObject> universe = new ArrayList<>();
     private Thread calcThread;
-    Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.5), new EventHandler<ActionEvent>() {
+    Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.03), new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent event) {
-            System.out.println("(Re-)Drawing...");
-            //Draw.drawPlanets(universe, paneDraw);
+            //System.out.println("(Re-)Drawing...");
+            Draw.drawPlanets(universe, paneDraw);
         }
     }));
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        SpaceObject sun = new SpaceObject("sun", 600, 600, 5970000000000000.4, new Vector(), 50, 10, new int[]{0,0,255}, 10);
+        SpaceObject sun = new SpaceObject("sun", 0, 0, 7970000000000000.4, new Vector(), 50, 10, new int[]{0,0,255}, 10);
         universe.add(sun);
 
-        Vector nF = new Vector(75,-12,15);
+        Vector nF = new Vector(-5,2,25);
         SpaceObject earth = new SpaceObject("earth", 450, 450, 500000000000.0, nF, 15, 10, new int[]{0,255,0}, 10);
         universe.add(earth);
         
-        //Berechnungen.berechneBahn(universe);
-        Berechnungen startCalc;
-        startCalc = new Berechnungen(universe);
-        startCalc.start();
+        
 
 
         //printausgabe
+        /*
         while (true){
             System.out.println("sonne: "+(int) universe.get(0).getX()+","+(int) universe.get(0).getY());
             System.out.println("erde: "+(int) universe.get(1).getX()+","+(int) universe.get(1).getY()+"     "+universe.get(0).getPositionVector().norm(universe.get(1).getPositionVector()));
@@ -64,9 +62,8 @@ public class Controller implements Initializable {
                 t.getUncaughtExceptionHandler().uncaughtException(t, ex);
             }
         }
-
-
-
+        */
+        
         MyCalculations myCalc = new MyCalculations(universe);
         calcThread = new Thread(myCalc);
 
@@ -75,7 +72,7 @@ public class Controller implements Initializable {
         slider_set_dt.setMin(1);
         slider_set_dt.setMax(3);
         slider_set_dt.setValue(1);
-
+        
         /*slider_set_dt.valueProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue arg0, Object arg1, Object arg2) {
@@ -89,7 +86,12 @@ public class Controller implements Initializable {
     }
 
     @FXML private void buttonStartSimulation(ActionEvent event) throws InterruptedException {
-        calcThread.start();
+        //calcThread.start();
+
+        //Berechnungen.berechneBahn(universe);
+        Berechnungen startCalc;
+        startCalc = new Berechnungen(universe);
+        startCalc.start();
 
         /*
         Platform.runLater(new Runnable() {

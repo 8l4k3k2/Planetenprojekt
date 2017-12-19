@@ -8,9 +8,9 @@ import javafx.scene.shape.Line;
 public class Draw {
 
     public static void drawPlanets(ArrayList<SpaceObject> universe, Pane pane) {
-        for (Node child: pane.getChildren()) {
-            System.out.println(child);
-        }
+        //for (Node child: pane.getChildren()) {
+        //    System.out.println(child);
+        //}
         
         // Clear objects first
         for (SpaceObject so: universe) {
@@ -25,6 +25,7 @@ public class Draw {
         double scaleFactor = 0.1;
 
         for (SpaceObject so: universe) {
+            
             so.setCenterX(so.getX() * scaleFactor + paneHalfWidth);
             so.setCenterY(so.getY() * scaleFactor + paneHalfHeight);
             //System.out.println("x=" + so.getCenterX() + "   y=" + so.getCenterY());
