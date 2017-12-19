@@ -1,10 +1,8 @@
 package plantenbahnen;
 
 import java.util.ArrayList;
-import java.util.List;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javafx.util.Pair;
 
 public class SpaceObject extends Circle {
     
@@ -17,7 +15,6 @@ public class SpaceObject extends Circle {
     private int thickness;
     private int[] colour;
     private String name;
-    //private ArrayList<double[]> tail;  // Schweif
     private ArrayList<Line> tail;
     private int tailSize;
 
@@ -33,7 +30,6 @@ public class SpaceObject extends Circle {
         this.size = size; //10;
         this.thickness = thickness ;//0;
         this.colour = colour; //new int[]{0, 0, 255};
-        //this.tail = new Line[tailSize];
         this.tail = new ArrayList<>();
         this.tailSize = tailSize;
     }
@@ -125,42 +121,49 @@ public class SpaceObject extends Circle {
     public Vector getPositionVector(){
         return new Vector(this.x,this.y);
     }
-    
-    public void addToTail(double x, double y) {
-        double[] pair = {x, y};
-        double[] startValues = {0.0, 0.0};
-        Line line = new Line();
-        
-        try {
-            startValues[0] = this.tail.get(0).getEndX();
-            startValues[1] = this.tail.get(0).getEndY();
-        } catch (IndexOutOfBoundsException e) {
-            startValues[0] = pair[0];
-            startValues[1] = pair[1];
-        }
-        line.setStartX(startValues[0]);
-        line.setStartY(startValues[1]);
-        line.setEndX(pair[0]);
-        line.setEndY(pair[1]);
-        
-        this.tail.add(line);
-        
-        if ( this.tail.size() > this.tailSize ) {
-            this.tail.remove(this.tail.size()-1);
-        }
-    }
+
     
     public ArrayList<Line> getTail() {
         return this.tail;
     }
     
-    public void addToNewPositionVector(Vector v){
+    public void addPositionVectorToCoordinates(Vector v){
         this.xNew=this.x+v.x();
         this.yNew=this.y+v.y();
     }
+
     public void setNewCoordinates(){
+        addLineToTail();
         this.x=this.xNew;
         this.y=this.yNew;
         this.velocityVector=this.velocityVectorNew;
     }
+
+
+    private void addLineToTail(){
+        Line line = new Line();
+        line.setStartX(this.x);
+        line.setStartY(this.y);
+        line.setEndX(this.xNew);
+        line.setEndY(this.yNew);
+
+        this.tail.add(line);
+
+        if ( this.tail.size() > this.tailSize ) {
+            this.tail.remove(this.tail.size()-1);
+        }
+    }
+
+    private double getTailLength(){
+        double length=0;
+        for (Line l:this.tail){
+            Vector a = new Vector(l.getStartX(),l.getStartY());
+            Vector b = new Vector(l.getEndX(),l.getEndY());
+            double norm = a.norm(b);
+            length+=norm;
+        }
+        return length;
+    }
+
+
 }

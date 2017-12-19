@@ -1,66 +1,46 @@
 package plantenbahnen;
 
-import java.time.Duration;
-import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
 
 public class Berechnungen implements Runnable{
     private Thread t;
     private ArrayList<SpaceObject> universe;
     private double timedif;
+    private boolean runtime;
+    private double velocityFactor=1;
+    private double requestedVF;
+    private boolean vFrequest=false;
+
 
     Berechnungen(ArrayList<SpaceObject> universe) {
-        // To do by Jonathan
         this.universe = universe;
     }
 
     @Override
     public void run(){
-        //Instant start,end;
         long start, end;
-        //System.out.println("asdasd");
-        //start = Instant.now();
         start = System.nanoTime();
-        int i = 0;
-        while (true) {
-        //while (i<10) {
+        this.runtime=true;
+        while (this.runtime) {
 
+            if (vFrequest){ //manual lock
+                velocityFactor=requestedVF;
+                vFrequest=false;
+            }
 
             for (SpaceObject sO : universe) {
-                // end = Instant.now();
                 end = System.nanoTime();
-                //this.timedif = Duration.between(start, end).toNanos() / Math.pow(10, 9);
                 this.timedif = (end-start) / Math.pow(10, 9);
-                this.timedif *= 100.0;
-                //System.out.println(this.timedif);
+                this.timedif *= velocityFactor;
                 moveall(sO);
                 start = end;
             }
             for (SpaceObject sO : universe) {
+
+                //sets x=x1,y=y1 and adds Line to tail
                 sO.setNewCoordinates();
             }
-            i++;
         }
-        /*
-        SpaceObject a = universe.get(0);
-        int n=0;
-        while (true){
-            if (!true){
-                break;
-            }
-            n+=1;
-            System.out.println("Thread laeuft");
-            try{
-            TimeUnit.SECONDS.sleep(1);
-            }
-            catch (Exception ex){
-                Thread t = Thread.currentThread();
-                t.getUncaughtExceptionHandler().uncaughtException(t, ex);
-            }
-        }**
-        */
     }
 
     private void moveall(SpaceObject sO){
@@ -70,20 +50,25 @@ public class Berechnungen implements Runnable{
             if (planet!=sO){
                 //newtons Gravitationsgesetz
                 Vector zaehler = planet.getPositionVector().subtract(sO.getPositionVector());
-
                 double nenner = Math.pow(zaehler.norm(),3);
                 Vector temp = zaehler.divide(nenner);
                 temp = temp.multiply(planet.getMass());
                 totalAccelVector.addToSelf(temp);
             }
         }
+        //accellVector
         totalAccelVector.multiplyToSelf(G);
+
+        //velocityVector
         totalAccelVector.multiplyToSelf(this.timedif);
+
+        //velocityVector(newton) and velocityVector from s0 added together
         Vector temp = sO.getVelocityVector().add(totalAccelVector);
 
+        //set new velocityVector
         sO.setVelocityVectorNew(temp);
-
-        sO.addToNewPositionVector(sO.getVelocityVectorNew().multiply(this.timedif));
+        //set new Coordinates
+        sO.addPositionVectorToCoordinates(sO.getVelocityVectorNew().multiply(this.timedif));
 
 
     }
@@ -97,7 +82,16 @@ public class Berechnungen implements Runnable{
     }
     
     void stop(){
-        
+        this.runtime=false;
+    }
+
+    public void setVelocityFactor(double velocityFactor) {
+        this.requestedVF = velocityFactor;
+        this.vFrequest=true;
+    }
+
+    public double getVelocityFactor() {
+        return this.velocityFactor;
     }
     
     /*
