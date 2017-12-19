@@ -6,6 +6,8 @@ import java.util.ResourceBundle;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -62,20 +64,16 @@ public class Controller implements Initializable {
         
         Draw.drawPlanets(universe, paneDraw);
 
-        slider_sim_speed.setMin(1);
-        slider_sim_speed.setMax(3);
-        slider_sim_speed.setValue(1);
+        slider_sim_speed.setMin(10.0);
+        slider_sim_speed.setMax(1000.0);
+        slider_sim_speed.setValue(100.0);
         
-        /*slider_set_dt.valueProperty().addListener(new ChangeListener() {
+        slider_sim_speed.valueProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue arg0, Object arg1, Object arg2) {
-                System.out.println("changed....");
-                //betLabel.textProperty().setValue( String.valueOf((int) betSlider.getValue()));
-                timeline.getKeyFrames().removeAll();
-                System.out.println(timeline.getKeyFrames());
-                timeline.getKeyFrames().add(new KeyFrame(Duration.ZERO, new KeyValue(slider.valueProperty(), 0)));
+                startCalc.setVelocityFactor(slider_sim_speed.getValue());
             }
-        });*/
+        });
     }
 
     @FXML private void buttonStartSimulation(ActionEvent event) throws InterruptedException {
