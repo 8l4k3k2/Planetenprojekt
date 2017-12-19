@@ -99,7 +99,7 @@ public class Berechnungen implements Runnable{
     void stop(){
         
     }
-
+    
     /*
     void join() throws InterruptedException{
         this.t.join();

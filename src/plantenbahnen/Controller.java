@@ -3,10 +3,8 @@ package plantenbahnen;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.concurrent.TimeUnit;
 
 import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -16,25 +14,27 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 //import javax.swing.event.ChangeListener;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
 
 
 public class Controller implements Initializable {
     
     @FXML private Pane paneDraw;
     @FXML private Pane paneControls;
-    @FXML private Slider slider_set_dt;
-
+    @FXML private Slider slider_sim_speed;
+    @FXML private RadioButton radioButton_drawTail;
+    @FXML private TextField textField_tailLenght;
+    
     private ArrayList<SpaceObject> universe = new ArrayList<>();
     private Thread calcThread;
     Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.03), new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent event) {
-            //System.out.println("(Re-)Drawing...");
             Draw.drawPlanets(universe, paneDraw);
         }
     }));
+    Berechnungen startCalc = new Berechnungen(universe);
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -46,9 +46,6 @@ public class Controller implements Initializable {
         SpaceObject earth = new SpaceObject("earth", 450, 450, 500000000000.0, nF, 15, 10, new int[]{0,255,0}, 10);
         universe.add(earth);
         
-        
-
-
         //printausgabe
         /*
         while (true){
@@ -64,14 +61,14 @@ public class Controller implements Initializable {
         }
         */
         
-        MyCalculations myCalc = new MyCalculations(universe);
-        calcThread = new Thread(myCalc);
+        //MyCalculations myCalc = new MyCalculations(universe);
+        //calcThread = new Thread(myCalc);
 
         Draw.drawPlanets(universe, paneDraw);
 
-        slider_set_dt.setMin(1);
-        slider_set_dt.setMax(3);
-        slider_set_dt.setValue(1);
+        slider_sim_speed.setMin(1);
+        slider_sim_speed.setMax(3);
+        slider_sim_speed.setValue(1);
         
         /*slider_set_dt.valueProperty().addListener(new ChangeListener() {
             @Override
@@ -86,47 +83,22 @@ public class Controller implements Initializable {
     }
 
     @FXML private void buttonStartSimulation(ActionEvent event) throws InterruptedException {
-        //calcThread.start();
 
-        //Berechnungen.berechneBahn(universe);
-        Berechnungen startCalc;
-        startCalc = new Berechnungen(universe);
+        //calcThread.start();
         startCalc.start();
 
-        /*
-        Platform.runLater(new Runnable() {
-            @Override public void run() {
-                int i = 0;
-                while ( i < 3 ) {
-                    Draw.drawPlanets(universe, paneDraw);
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        System.out.println(e);
-                    }
-                    i++;
-                }
-            }
-        });
-        */
-        /*
-        Thread updaterThread = new Thread( () -> {
-            //@Override public void run () {
-            public void run () {
-                while ( true ) {
-                    Platform.runLater( () -> Draw.drawPlanets(universe, paneDraw) );
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        System.out.println(e);
-                    }
-                }
-            }
-        });
-        */
-        //updaterThread.setDaemon( true );
-        //updaterThread.start();
+        //timeline.getKeyFrames().add(new KeyFrame(Duration.ZERO, new KeyValue(slider.valueProperty(), 0)));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
+    }    
 
+    @FXML private void buttonStopSimulation(ActionEvent event) throws InterruptedException {
+
+        //calcThread.start();
+        startCalc.stop();
+
+        timeline.stop();
+        
         //timeline.getKeyFrames().add(new KeyFrame(Duration.ZERO, new KeyValue(slider.valueProperty(), 0)));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
