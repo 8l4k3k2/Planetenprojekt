@@ -125,42 +125,37 @@ public class SpaceObject extends Circle {
     public Vector getPositionVector(){
         return new Vector(this.x,this.y);
     }
-    
-    public void addToTail(double x, double y) {
-        double[] pair = {x, y};
-        double[] startValues = {0.0, 0.0};
-        Line line = new Line();
-        
-        try {
-            startValues[0] = this.tail.get(0).getEndX();
-            startValues[1] = this.tail.get(0).getEndY();
-        } catch (IndexOutOfBoundsException e) {
-            startValues[0] = pair[0];
-            startValues[1] = pair[1];
-        }
-        line.setStartX(startValues[0]);
-        line.setStartY(startValues[1]);
-        line.setEndX(pair[0]);
-        line.setEndY(pair[1]);
-        
-        this.tail.add(line);
-        
-        if ( this.tail.size() > this.tailSize ) {
-            this.tail.remove(this.tail.size()-1);
-        }
-    }
+
     
     public ArrayList<Line> getTail() {
         return this.tail;
     }
     
-    public void addToNewPositionVector(Vector v){
+    public void addPositionVectorToCoordinates(Vector v){
         this.xNew=this.x+v.x();
         this.yNew=this.y+v.y();
     }
     public void setNewCoordinates(){
+        addLineToTail();
         this.x=this.xNew;
         this.y=this.yNew;
         this.velocityVector=this.velocityVectorNew;
     }
+
+
+    private void addLineToTail(){
+        Line line = new Line();
+        line.setStartX(this.x);
+        line.setStartY(this.y);
+        line.setEndX(this.xNew);
+        line.setEndY(this.yNew);
+
+        this.tail.add(line);
+
+        if ( this.tail.size() > this.tailSize ) {
+            this.tail.remove(this.tail.size()-1);
+        }
+    }
+
+
 }

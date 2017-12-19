@@ -1,18 +1,14 @@
 package plantenbahnen;
 
-import java.time.Duration;
-import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
 
 public class Berechnungen implements Runnable{
     private Thread t;
     private ArrayList<SpaceObject> universe;
     private double timedif;
+    private boolean runtime;
 
     Berechnungen(ArrayList<SpaceObject> universe) {
-        // To do by Jonathan
         this.universe = universe;
     }
 
@@ -24,10 +20,8 @@ public class Berechnungen implements Runnable{
         //start = Instant.now();
         start = System.nanoTime();
         int i = 0;
-        while (true) {
-        //while (i<10) {
-
-
+        this.runtime=true;
+        while (this.runtime) {
             for (SpaceObject sO : universe) {
                 // end = Instant.now();
                 end = System.nanoTime();
@@ -83,7 +77,7 @@ public class Berechnungen implements Runnable{
 
         sO.setVelocityVectorNew(temp);
 
-        sO.addToNewPositionVector(sO.getVelocityVectorNew().multiply(this.timedif));
+        sO.addPositionVectorToCoordinates(sO.getVelocityVectorNew().multiply(this.timedif));
 
 
     }
@@ -97,7 +91,7 @@ public class Berechnungen implements Runnable{
     }
     
     void stop(){
-        
+        this.runtime=false;
     }
 
     /*
