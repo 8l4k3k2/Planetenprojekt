@@ -19,11 +19,18 @@ public class Berechnungen implements Runnable{
         Instant start,end;
         System.out.println("asdasd");
         start = Instant.now();
-        for (SpaceObject sO:universe){
-            end = Instant.now();
-            this.timedif = Duration.between(start,end).toNanos()/Math.pow(10,9);
-            moveall(sO);
-            start=end;
+        while (true) {
+
+
+            for (SpaceObject sO : universe) {
+                end = Instant.now();
+                this.timedif = Duration.between(start, end).toNanos() / Math.pow(10, 9);
+                moveall(sO);
+                start = end;
+            }
+            for (SpaceObject sO : universe) {
+                sO.setNewCoordinates();
+            }
         }
         /*
         SpaceObject a = universe.get(0);
@@ -61,8 +68,9 @@ public class Berechnungen implements Runnable{
         totalAccelVector.multiplyToSelf(G);
         totalAccelVector.multiplyToSelf(timedif);
         Vector temp = sO.getVelocityVector().add(totalAccelVector);
-        sO.setVelocityVector1(temp);
+        sO.setVelocityVectorNew(temp);
 
+        sO.addToNewPositionVector(sO.getVelocityVectorNew().multiply(timedif));
 
 
     }

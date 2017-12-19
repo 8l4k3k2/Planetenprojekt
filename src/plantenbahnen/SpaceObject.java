@@ -2,10 +2,10 @@ package plantenbahnen;
 
 public class SpaceObject {
     private double x,y;
-    private double x1,y1;
+    private double xNew,yNew;
     private double mass;
     private Vector velocityVector;
-    private Vector velocityVector1;
+    private Vector velocityVectorNew;
     private int size;
     private int thickness;
     private int[] colour;
@@ -55,10 +55,6 @@ public class SpaceObject {
         return colour;
     }
 
-    public double getx(){
-        return this.x;
-    }
-
     public double getX() {
         return x;
     }
@@ -67,40 +63,36 @@ public class SpaceObject {
         return y;
     }
 
-    public double getX1() {
-        return x1;
+    public double getXNew() {
+        return xNew;
     }
 
-    public double getY1() {
-        return y1;
+    public double getYNew() {
+        return yNew;
     }
 
-    public Vector getVelocityVector1() {
-        return velocityVector1;
-    }
-
-    public void setXnew(double x1) {
-
-        this.x1 = x1;
-    }
-
-    public void setYnew(double y1) {
-        this.y1 = y1;
-    }
-
-    public void setVelocityVector1(Vector velocityVector1) {
-        this.velocityVector1 = velocityVector1;
-    }
-
-    public void setx(double value){
+    public void setX(double value){
         this.x=value;
     }
-    public double gety(){
-        return this.y;
+
+    public void setY(double value){
+        this.y=value;
     }
 
-    public void sety(double value){
-        this.y=value;
+    public void setXNew(double xNew) {
+        this.xNew = xNew;
+    }
+
+    public void setYNew(double yNew) {
+        this.yNew = yNew;
+    }
+
+    public Vector getVelocityVectorNew() {
+        return velocityVectorNew;
+    }
+
+    public void setVelocityVectorNew(Vector velocityVectorNew) {
+        this.velocityVectorNew = velocityVectorNew;
     }
 
     public double getMass() {
@@ -117,5 +109,15 @@ public class SpaceObject {
 
     public Vector getPositionVector(){
         return new Vector(this.x,this.y);
+    }
+
+    public void addToNewPositionVector(Vector v){
+        this.xNew=this.x+v.x();
+        this.yNew=this.y+v.y();
+    }
+    public void setNewCoordinates(){
+        this.x=this.xNew;
+        this.y=this.yNew;
+        this.velocityVector=this.velocityVectorNew;
     }
 }

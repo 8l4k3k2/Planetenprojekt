@@ -3,6 +3,8 @@ package plantenbahnen;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -30,7 +32,7 @@ public class Controller implements Initializable {
         @Override
         public void handle(ActionEvent event) {
             System.out.println("(Re-)Drawing...");
-            Draw.drawPlanets(universe, paneDraw);
+            //Draw.drawPlanets(universe, paneDraw);
         }
     }));
 
@@ -45,10 +47,22 @@ public class Controller implements Initializable {
         universe.add(earth);
         
         //Berechnungen.berechneBahn(universe);
-        //Berechnungen startCalc;
-        //startCalc = new Berechnungen(universe);
-        //startCalc.start();
+        Berechnungen startCalc;
+        startCalc = new Berechnungen(universe);
+        startCalc.start();
 
+        while (true){
+            System.out.println(universe.get(1).getX()+","+universe.get(1).getY());
+            try{
+                TimeUnit.SECONDS.sleep(1);
+            }
+            catch (Exception ex){
+                Thread t = Thread.currentThread();
+                t.getUncaughtExceptionHandler().uncaughtException(t, ex);
+            }
+        }
+
+        /*
         MyCalculations myCalc = new MyCalculations(universe);
         calcThread = new Thread(myCalc);
 
@@ -57,6 +71,7 @@ public class Controller implements Initializable {
         slider_set_dt.setMin(1);
         slider_set_dt.setMax(3);
         slider_set_dt.setValue(1);
+        */
         /*slider_set_dt.valueProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue arg0, Object arg1, Object arg2) {
