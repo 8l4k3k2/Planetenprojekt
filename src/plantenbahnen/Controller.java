@@ -52,8 +52,10 @@ public class Controller implements Initializable {
         startCalc.start();
 
 
+        //printausgabe
         while (true){
-            System.out.println((int) universe.get(1).getX()+","+(int) universe.get(1).getY()+"     "+universe.get(0).getPositionVector().norm(universe.get(1).getPositionVector()));
+            System.out.println("sonne: "+(int) universe.get(0).getX()+","+(int) universe.get(0).getY());
+            System.out.println("erde: "+(int) universe.get(1).getX()+","+(int) universe.get(1).getY()+"     "+universe.get(0).getPositionVector().norm(universe.get(1).getPositionVector()));
             try{
                 TimeUnit.SECONDS.sleep(1);
             }
@@ -64,7 +66,7 @@ public class Controller implements Initializable {
         }
 
 
-        /*
+
         MyCalculations myCalc = new MyCalculations(universe);
         calcThread = new Thread(myCalc);
 
@@ -73,7 +75,7 @@ public class Controller implements Initializable {
         slider_set_dt.setMin(1);
         slider_set_dt.setMax(3);
         slider_set_dt.setValue(1);
-        */
+
         /*slider_set_dt.valueProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue arg0, Object arg1, Object arg2) {
