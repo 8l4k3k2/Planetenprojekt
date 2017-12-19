@@ -1,5 +1,7 @@
 package plantenbahnen;
 
+
+
 import java.util.ArrayList;
 import javafx.scene.layout.Pane;
 
@@ -27,8 +29,8 @@ public class Zeichnen implements Runnable {
             double scaleFactor = 0.1;
 
             for (SpaceObject so: universe) {
-                so.setCenterX(so.getx() * scaleFactor + paneHalfWidth);
-                so.setCenterY(so.gety() * scaleFactor + paneHalfHeight);
+                so.setCenterX(so.getX() * scaleFactor + paneHalfWidth);
+                so.setCenterY(so.getY() * scaleFactor + paneHalfHeight);
                 so.setRadius(2);
                 //so.setColour(Color.BLACK);
                 pane.getChildren().add(so);

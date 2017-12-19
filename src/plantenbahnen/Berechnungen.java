@@ -1,10 +1,15 @@
 package plantenbahnen;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class Berechnungen implements Runnable{
     private Thread t;
     private ArrayList<SpaceObject> universe;
+    private double timedif;
 
     Berechnungen(ArrayList<SpaceObject> universe) {
         // To do by Jonathan
@@ -13,8 +18,21 @@ public class Berechnungen implements Runnable{
 
     @Override
     public void run(){
-        for (SpaceObject sO:universe){
-            //moveall(sO);
+        Instant start,end;
+        System.out.println("asdasd");
+        start = Instant.now();
+        while (true) {
+
+
+            for (SpaceObject sO : universe) {
+                end = Instant.now();
+                this.timedif = Duration.between(start, end).toNanos() / Math.pow(10, 9);
+                moveall(sO);
+                start = end;
+            }
+            for (SpaceObject sO : universe) {
+                sO.setNewCoordinates();
+            }
         }
         /*
         SpaceObject a = universe.get(0);
@@ -32,10 +50,10 @@ public class Berechnungen implements Runnable{
                 Thread t = Thread.currentThread();
                 t.getUncaughtExceptionHandler().uncaughtException(t, ex);
             }
-        }
+        }**
         */
     }
-    /*
+
     private void moveall(SpaceObject sO){
         double G = 6.67408*Math.pow(10,-11); //Gravitationskonstante
         Vector totalAccelVector = new Vector();
@@ -43,6 +61,7 @@ public class Berechnungen implements Runnable{
             if (planet!=sO){
                 //newtons Gravitationsgesetz
                 Vector zaehler = planet.getPositionVector().subtract(sO.getPositionVector());
+
                 double nenner = Math.pow(zaehler.norm(),3);
                 Vector temp = zaehler.divide(nenner);
                 temp = temp.multiply(planet.getMass());
@@ -50,11 +69,16 @@ public class Berechnungen implements Runnable{
             }
         }
         totalAccelVector.multiplyToSelf(G);
+        totalAccelVector.multiplyToSelf(timedif);
+        Vector temp = sO.getVelocityVector().add(totalAccelVector);
 
+        sO.setVelocityVectorNew(temp);
+
+        sO.addToNewPositionVector(sO.getVelocityVectorNew().multiply(timedif));
 
 
     }
-    */
+
     void start(){
         //System.out.println("Startthread");
         if (t==null){

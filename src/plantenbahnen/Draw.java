@@ -25,8 +25,8 @@ public class Draw {
         double scaleFactor = 0.1;
 
         for (SpaceObject so: universe) {
-            so.setCenterX(so.getx() * scaleFactor + paneHalfWidth);
-            so.setCenterY(so.gety() * scaleFactor + paneHalfHeight);
+            so.setCenterX(so.getX() * scaleFactor + paneHalfWidth);
+            so.setCenterY(so.getY() * scaleFactor + paneHalfHeight);
             //System.out.println("x=" + so.getCenterX() + "   y=" + so.getCenterY());
             so.setRadius(2);
             //so.setColour(Color.BLACK);

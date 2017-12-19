@@ -9,10 +9,10 @@ import javafx.util.Pair;
 public class SpaceObject extends Circle {
     
     private double x,y;
-    private double x1,y1;
+    private double xNew,yNew;
     private double mass;
     private Vector velocityVector;
-    private Vector velocityVector1;
+    private Vector velocityVectorNew;
     private int size;
     private int thickness;
     private int[] colour;
@@ -70,32 +70,58 @@ public class SpaceObject extends Circle {
         return colour;
     }
 
-    public double getx(){
-        return this.x;
-    }
-    public void setx(double value){
-        this.x=value;
-    }
-    public double gety(){
-        return this.y;
+    public double getX() {
+        return x;
     }
 
-    public void sety(double value){
+    public double getY() {
+        return y;
+    }
+
+    public double getXNew() {
+        return xNew;
+    }
+
+    public double getYNew() {
+        return yNew;
+    }
+
+    public void setX(double value){
+        this.x=value;
+    }
+
+    public void setY(double value){
         this.y=value;
+    }
+
+    public void setXNew(double xNew) {
+        this.xNew = xNew;
+    }
+
+    public void setYNew(double yNew) {
+        this.yNew = yNew;
+    }
+
+    public Vector getVelocityVectorNew() {
+        return velocityVectorNew;
+    }
+
+    public void setVelocityVectorNew(Vector velocityVectorNew) {
+        this.velocityVectorNew = velocityVectorNew;
     }
 
     public double getMass() {
         return this.mass;
     }
-    
+
     public void setName(String name) {
         this.name = name;
     }
-    
+
     public String getName() {
         return this.name;
     }
-    
+
     public Vector getPositionVector(){
         return new Vector(this.x,this.y);
     }
@@ -126,5 +152,15 @@ public class SpaceObject extends Circle {
     
     public ArrayList<Line> getTail() {
         return this.tail;
+    }
+    
+    public void addToNewPositionVector(Vector v){
+        this.xNew=this.x+v.x();
+        this.yNew=this.y+v.y();
+    }
+    public void setNewCoordinates(){
+        this.x=this.xNew;
+        this.y=this.yNew;
+        this.velocityVector=this.velocityVectorNew;
     }
 }
