@@ -16,45 +16,22 @@ public class Berechnungen implements Runnable{
     public void run(){
         //Instant start,end;
         long start, end;
-        //System.out.println("asdasd");
-        //start = Instant.now();
         start = System.nanoTime();
-        int i = 0;
         this.runtime=true;
         while (this.runtime) {
             for (SpaceObject sO : universe) {
-                // end = Instant.now();
                 end = System.nanoTime();
-                //this.timedif = Duration.between(start, end).toNanos() / Math.pow(10, 9);
                 this.timedif = (end-start) / Math.pow(10, 9);
                 this.timedif *= 100.0;
-                //System.out.println(this.timedif);
                 moveall(sO);
                 start = end;
             }
             for (SpaceObject sO : universe) {
+
+                //sets x=x1,y=y1 and adds Line to tail
                 sO.setNewCoordinates();
             }
-            i++;
         }
-        /*
-        SpaceObject a = universe.get(0);
-        int n=0;
-        while (true){
-            if (!true){
-                break;
-            }
-            n+=1;
-            System.out.println("Thread laeuft");
-            try{
-            TimeUnit.SECONDS.sleep(1);
-            }
-            catch (Exception ex){
-                Thread t = Thread.currentThread();
-                t.getUncaughtExceptionHandler().uncaughtException(t, ex);
-            }
-        }**
-        */
     }
 
     private void moveall(SpaceObject sO){
@@ -64,19 +41,24 @@ public class Berechnungen implements Runnable{
             if (planet!=sO){
                 //newtons Gravitationsgesetz
                 Vector zaehler = planet.getPositionVector().subtract(sO.getPositionVector());
-
                 double nenner = Math.pow(zaehler.norm(),3);
                 Vector temp = zaehler.divide(nenner);
                 temp = temp.multiply(planet.getMass());
                 totalAccelVector.addToSelf(temp);
             }
         }
+        //accellVector
         totalAccelVector.multiplyToSelf(G);
+
+        //velocityVector
         totalAccelVector.multiplyToSelf(this.timedif);
+
+        //velocityVector(newton) and velocityVector from s0 added together
         Vector temp = sO.getVelocityVector().add(totalAccelVector);
 
+        //set new velocityVector
         sO.setVelocityVectorNew(temp);
-
+        //set new Coordinates
         sO.addPositionVectorToCoordinates(sO.getVelocityVectorNew().multiply(this.timedif));
 
 

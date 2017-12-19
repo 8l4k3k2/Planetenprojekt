@@ -1,10 +1,8 @@
 package plantenbahnen;
 
 import java.util.ArrayList;
-import java.util.List;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javafx.util.Pair;
 
 public class SpaceObject extends Circle {
     
@@ -17,7 +15,6 @@ public class SpaceObject extends Circle {
     private int thickness;
     private int[] colour;
     private String name;
-    //private ArrayList<double[]> tail;  // Schweif
     private ArrayList<Line> tail;
     private int tailSize;
 
@@ -33,7 +30,6 @@ public class SpaceObject extends Circle {
         this.size = size; //10;
         this.thickness = thickness ;//0;
         this.colour = colour; //new int[]{0, 0, 255};
-        //this.tail = new Line[tailSize];
         this.tail = new ArrayList<>();
         this.tailSize = tailSize;
     }
@@ -135,6 +131,7 @@ public class SpaceObject extends Circle {
         this.xNew=this.x+v.x();
         this.yNew=this.y+v.y();
     }
+
     public void setNewCoordinates(){
         addLineToTail();
         this.x=this.xNew;
@@ -155,6 +152,17 @@ public class SpaceObject extends Circle {
         if ( this.tail.size() > this.tailSize ) {
             this.tail.remove(this.tail.size()-1);
         }
+    }
+
+    private double getTailLength(){
+        double length=0;
+        for (Line l:this.tail){
+            Vector a = new Vector(l.getStartX(),l.getStartY());
+            Vector b = new Vector(l.getEndX(),l.getEndY());
+            double norm = a.norm(b);
+            length+=norm;
+        }
+        return length;
     }
 
 
