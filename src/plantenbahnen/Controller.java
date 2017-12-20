@@ -32,7 +32,7 @@ public class Controller implements Initializable {
     Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.03), new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent event) {
-            Draw.drawPlanets(universe, paneDraw);
+            Draw.drawPlanets(universe, paneDraw, radioButton_drawTail);
         }
     }));
     Berechnungen startCalc = new Berechnungen(universe);
@@ -40,11 +40,13 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        SpaceObject sun = new SpaceObject("sun", 0, 0, 7970000000000000.4, new Vector(), 50, 10, new int[]{0,0,255}, 10);
+        GuiElements gui = new GuiElements(paneDraw, 0.1);
+        
+        SpaceObject sun = new SpaceObject("sun", 0, 0, 7970000000000000.4, new Vector(), 50, new int[]{0,0,255}, 10, gui);
         universe.add(sun);
 
         Vector nF = new Vector(-5,2,25);
-        SpaceObject earth = new SpaceObject("earth", 450, 450, 500000000000.0, nF, 15, 10, new int[]{0,255,0}, 10);
+        SpaceObject earth = new SpaceObject("earth", 450, 450, 500000000000.0, nF, 15, new int[]{0,255,0}, 100, gui);
         universe.add(earth);
         
         //printausgabe
@@ -62,7 +64,7 @@ public class Controller implements Initializable {
         }
         */
         
-        Draw.drawPlanets(universe, paneDraw);
+        Draw.drawPlanets(universe, paneDraw, radioButton_drawTail);
 
         slider_sim_speed.setMin(10.0);
         slider_sim_speed.setMax(1000.0);
@@ -78,11 +80,13 @@ public class Controller implements Initializable {
 
     @FXML private void buttonStartSimulation(ActionEvent event) throws InterruptedException {
         
-        startCalc.start();
+        //startCalc.start();
 
         //timeline.getKeyFrames().add(new KeyFrame(Duration.ZERO, new KeyValue(slider.valueProperty(), 0)));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
+        
+        startCalc.start();
     }    
 
     @FXML private void buttonStopSimulation(ActionEvent event) throws InterruptedException {
