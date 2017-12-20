@@ -27,14 +27,18 @@ public class Controller implements Initializable {
     @FXML private Slider slider_sim_speed;
     @FXML private RadioButton radioButton_drawTail;
     @FXML private TextField textField_tailLenght;
-    
+
     private ArrayList<SpaceObject> universe = new ArrayList<>();
+
+    /*
     Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.03), new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent event) {
             Draw.drawPlanets(universe, paneDraw, radioButton_drawTail);
         }
     }));
+    */
+
     Berechnungen startCalc = new Berechnungen(universe);
 
     public void onCloseEvent(){
@@ -46,16 +50,20 @@ public class Controller implements Initializable {
 
         GuiElements gui = new GuiElements(paneDraw, 0.1);
         
-        SpaceObject sun = new SpaceObject("sun", 0, 0, 7970000000000000.4, new Vector(), 50, new int[]{0,0,255}, 10, gui);
+        SpaceObject sun = new SpaceObject("sun", 0, 0, 7970000000000000.4, new Vector(), 15, new int[]{0,0,255}, 10, gui);
         universe.add(sun);
 
         Vector nF = new Vector(-5,2,25);
-        SpaceObject earth = new SpaceObject("earth", 450, 450, 500000000000.0, nF, 15, new int[]{0,255,0}, 100, gui);
+        SpaceObject earth = new SpaceObject("earth", 450, 450, 500000000000.0, nF, 7, new int[]{0,255,0}, 100, gui);
         universe.add(earth);
 
+        /*
         Vector nF2 = new Vector(5,2,25);
-        SpaceObject moon = new SpaceObject("moon", 350, 550, 50000000000.0, nF2, 15, 10, new int[]{0,255,0}, 10);
+        SpaceObject moon = new SpaceObject("moon", 350, 550, 50000000000.0, nF2, 15, new int[]{0,255,0}, 10, gui);
         universe.add(moon);
+        */
+
+
         
         //printausgabe
         /*
@@ -71,12 +79,16 @@ public class Controller implements Initializable {
             }
         }
         */
-        
-        Draw.drawPlanets(universe, paneDraw, radioButton_drawTail);
+
+        for (SpaceObject planet:universe){
+            paneDraw.getChildren().add(planet);
+        }
+        //Draw.drawPlanets(universe, paneDraw, radioButton_drawTail);
 
         slider_sim_speed.setMin(10.0);
         slider_sim_speed.setMax(1000.0);
         slider_sim_speed.setValue(100.0);
+
         
         slider_sim_speed.valueProperty().addListener(new ChangeListener() {
             @Override
@@ -91,14 +103,14 @@ public class Controller implements Initializable {
         //startCalc.start();
 
         //timeline.getKeyFrames().add(new KeyFrame(Duration.ZERO, new KeyValue(slider.valueProperty(), 0)));
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
+        //timeline.setCycleCount(Timeline.INDEFINITE);
+        //timeline.play();
         
         startCalc.start();
     }    
 
     @FXML private void buttonStopSimulation(ActionEvent event) throws InterruptedException {
         startCalc.stop();
-        timeline.stop();
+        //timeline.stop();
     }    
 }

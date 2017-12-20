@@ -38,7 +38,8 @@ public class Draw {
         double scaleFactor = 0.1;
         int nLines, i;
         double opacity;
-        
+
+
         for (SpaceObject so: universe) {
             
             // Draw the tail
@@ -64,6 +65,7 @@ public class Draw {
                     i++;
                 }
             }
+
             
             /*
             if ( rb_drawTail.isSelected() & so.getTail().size() > 0 ) {
@@ -99,6 +101,7 @@ public class Draw {
                 }
             }
             */
+
             // Draw the planets
             if ( ! pane.getChildren().contains(so)) {
                 so.setRadius(7.0);
