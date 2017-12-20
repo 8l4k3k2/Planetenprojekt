@@ -40,9 +40,12 @@ public class Controller implements Initializable {
     */
 
     Berechnungen startCalc = new Berechnungen(universe);
+    paintthread aktualisierung = new paintthread(universe);
+
 
     public void onCloseEvent(){
         startCalc.stop();
+        aktualisierung.stop();
     }
 
     @Override
@@ -107,6 +110,7 @@ public class Controller implements Initializable {
         //timeline.play();
         
         startCalc.start();
+        aktualisierung.start();
     }    
 
     @FXML private void buttonStopSimulation(ActionEvent event) throws InterruptedException {

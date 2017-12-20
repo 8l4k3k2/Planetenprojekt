@@ -161,7 +161,7 @@ public class SpaceObject extends Circle {
         this.y=this.yNew;
         this.velocityVector=this.velocityVectorNew;
 
-        this.setCircleProperties();
+        //this.setCircleProperties();
     }
 
 
@@ -205,7 +205,7 @@ public class SpaceObject extends Circle {
     }
     */
 
-    private void setCircleProperties(){
+    public void setCircleProperties(){
         //double scaleFactor=0.1, paneHalfWidth=0,paneHalfHeight=0;
 
         this.setCenterX(this.x * this.gui.getScaleFactor() + this.gui.getPaneHalfWidth());

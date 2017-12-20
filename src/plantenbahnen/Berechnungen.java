@@ -43,7 +43,6 @@ public class Berechnungen implements Runnable{
                 sO.setNewCoordinates();
             }
         }
-        t.stop();
     }
 
     private void moveall(SpaceObject sO){
