@@ -17,17 +17,25 @@ public class SpaceObject extends Circle {
     private int thickness;
     private int[] colour;
     private String name;
-    private ArrayList<Line> tail;
+
+    private int tailSize=100;
+    private Line[] tail = new Line[tailSize];
+    private ArrayList<Double[]> pastCoordinates = new ArrayList<>();
+
+    //private ArrayList<Line> tail;
     //private ArrayList<Circle> tail;
     //private ArrayList<Point2D> tail;
-    private int tailSize;
     private int tailIndex;
     private int tailIncrement;
     private GuiElements gui;
 
     SpaceObject(String name, double x, double y, double mass, Vector velocityVector, 
         int size, int[] colour, int tailSize, GuiElements gui) {
-        
+
+        for (int i=0;i<tailSize;i++){
+            tail[i] = new Line();
+        }
+
         this.x = x;
         this.y = y;
 
@@ -35,19 +43,16 @@ public class SpaceObject extends Circle {
         this.velocityVector = velocityVector;
 
         this.name = name;
-        //this.size = size; //10;
         this.setRadius(size);
-        //this.thickness = thickness ;//0;
-        //this.colour = colour; //new int[]{0, 0, 255};
         this.setFill(Color.rgb(colour[0],colour[1],colour[2]));
 
-        this.tail = new ArrayList<>();
+        //this.tail = new ArrayList<>();
         this.tailSize = tailSize;
         this.tailIndex = 0;
         this.tailIncrement = 100000;
 
         this.gui=gui;
-        this.setCircleProperties();
+        this.setCircleCoordinates();
     }
 
     public void setVelocityVector(Vector velocityVector) {
@@ -135,12 +140,6 @@ public class SpaceObject extends Circle {
     }
 
     
-    public ArrayList<Line> getTail() {
-        //public ArrayList<Circle> getTail() {
-        //public ArrayList<Point2D> getTail() {
-        return this.tail;
-    }
-    
     public void addPositionVectorToCoordinates(Vector v){
         this.xNew=this.x+v.x();
         this.yNew=this.y+v.y();
@@ -156,15 +155,36 @@ public class SpaceObject extends Circle {
         }
         this.tailIndex++;
         */
+        //this.addToPastCoordinates();
         
         this.x=this.xNew;
         this.y=this.yNew;
         this.velocityVector=this.velocityVectorNew;
-
-        //this.setCircleProperties();
     }
 
+    private void addToPastCoordinates(){
+        if (getlLength(pastCoordinates,new Double[]{this.x,this.y})>1) {
+            updateTail();
+            tail[tailSize-1].setStartX(pastCoordinates.get(0)[0]);
+            tail[tailSize-1].setStartY(pastCoordinates.get(0)[1]);
+            tail[tailSize-1].setEndX(pastCoordinates.get(pastCoordinates.size()-1)[0]);
+            tail[tailSize-1].setEndY(pastCoordinates.get(pastCoordinates.size()-1)[1]);
+            //pastCoordinates.clear();
+        }
+        this.pastCoordinates.add(new Double[]{this.x, this.y});
+    }
 
+    private void updateTail(){
+
+        for (int i=0;i<this.tail.length-1;i++){
+            this.tail[i].setStartX(this.tail[i+1].getStartX());
+            this.tail[i].setStartY(this.tail[i+1].getStartY());
+            this.tail[i].setEndX(this.tail[i+1].getEndX());
+            this.tail[i].setEndY(this.tail[i+1].getEndY());
+        }
+    }
+
+    /*
     private void addLineToTail(){
         
         Line line = new Line();
@@ -173,44 +193,32 @@ public class SpaceObject extends Circle {
         line.setEndX(this.xNew);
         line.setEndY(this.yNew);
         this.tail.add(0, line);
-        System.out.println("Added new line: ");
-        System.out.println(line);
-        System.out.println(this.tail);
-        
-        /*
-        Circle circle = new Circle();
-        circle.setCenterX(this.xNew);
-        circle.setCenterY(this.yNew);
-        //this.tail.add(0, circle);
-        */
-        
-        //Point2D point = new Point2D(this.x, this.y);
-        //this.tail.add(point);
+
+
 
         if ( this.tail.size() > this.tailSize ) {
             this.tail.remove(this.tail.get(this.tail.size()-1));
         }
+
     }
 
-    /*
-    private double getTailLength(){
+
+*/
+    public double getlLength(ArrayList<Double[]> l, Double[] newest){
+        l.add(newest);
         double length=0;
-        for (Line l:this.tail){
-            Vector a = new Vector(l.getStartX(),l.getStartY());
-            Vector b = new Vector(l.getEndX(),l.getEndY());
-            double norm = a.norm(b);
-            length+=norm;
-        }
+            for (int i=0;i<l.size()-1;i++) {
+
+                length += Math.sqrt(Math.pow((l.get(i)[0] - l.get(i+1)[0]), 2) + Math.pow((l.get(i)[1] - l.get(i+1)[1]), 2));
+            }
         return length;
     }
-    */
 
-    public void setCircleProperties(){
-        //double scaleFactor=0.1, paneHalfWidth=0,paneHalfHeight=0;
 
+
+    public void setCircleCoordinates(){
         this.setCenterX(this.x * this.gui.getScaleFactor() + this.gui.getPaneHalfWidth());
         this.setCenterY(this.y * this.gui.getScaleFactor() + this.gui.getPaneHalfHeight());
-        //System.out.println(this.name);
     }
 
 }

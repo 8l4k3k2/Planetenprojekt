@@ -4,17 +4,14 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import javafx.animation.AnimationTimer;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.Pane;
-import javafx.util.Duration;
 //import javax.swing.event.ChangeListener;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -40,12 +37,11 @@ public class Controller implements Initializable {
     */
 
     Berechnungen startCalc = new Berechnungen(universe);
-    paintthread aktualisierung = new paintthread(universe);
+    AnimationTimer animation;
 
 
     public void onCloseEvent(){
         startCalc.stop();
-        aktualisierung.stop();
     }
 
     @Override
@@ -99,6 +95,18 @@ public class Controller implements Initializable {
                 startCalc.setVelocityFactor(slider_sim_speed.getValue());
             }
         });
+
+        animation = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                for (SpaceObject so : universe) {
+                    so.setCircleCoordinates();
+
+                }
+            }
+        };
+
+        animation.start();
     }
 
     @FXML private void buttonStartSimulation(ActionEvent event) throws InterruptedException {
@@ -110,11 +118,12 @@ public class Controller implements Initializable {
         //timeline.play();
         
         startCalc.start();
-        aktualisierung.start();
     }    
 
     @FXML private void buttonStopSimulation(ActionEvent event) throws InterruptedException {
         startCalc.stop();
         //timeline.stop();
-    }    
+    }
+
+
 }

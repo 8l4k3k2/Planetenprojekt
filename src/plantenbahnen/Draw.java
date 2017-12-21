@@ -32,6 +32,7 @@ public class Draw {
         }
         */
         //pane.getChildren().clear();
+        /*
 
         double paneHalfWidth = pane.getPrefWidth() / 2.0;
         double paneHalfHeight = pane.getPrefHeight() / 2.0;
@@ -65,7 +66,7 @@ public class Draw {
                     i++;
                 }
             }
-
+                */
             
             /*
             if ( rb_drawTail.isSelected() & so.getTail().size() > 0 ) {
@@ -103,12 +104,15 @@ public class Draw {
             */
 
             // Draw the planets
+            /*
             if ( ! pane.getChildren().contains(so)) {
                 so.setRadius(7.0);
                 pane.getChildren().add(so);
             }
             so.setCenterX(so.getX() * scaleFactor + paneHalfWidth);
             so.setCenterY(so.getY() * scaleFactor + paneHalfHeight);
+
         }
+        */
     }
 }
