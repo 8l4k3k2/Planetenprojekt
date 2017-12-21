@@ -49,18 +49,18 @@ public class Controller implements Initializable {
 
         GuiElements gui = new GuiElements(paneDraw, 0.1);
         
-        SpaceObject sun = new SpaceObject("sun", 0, 0, 7970000000000000.4, new Vector(), 15, new int[]{0,0,255}, 10, gui);
+        SpaceObject sun = new SpaceObject("sun", 0, 0, 797000000000000000.4, new Vector(), 15, new int[]{0,0,255}, 10, gui);
         universe.add(sun);
 
-        Vector nF = new Vector(-5,2,25);
-        SpaceObject earth = new SpaceObject("earth", 450, 450, 500000000000.0, nF, 7, new int[]{0,255,0}, 100, gui);
+        Vector nF = new Vector(-5,2,350);
+        SpaceObject earth = new SpaceObject("earth", 450, 450, 50000000000000.0, nF, 7, new int[]{0,255,0}, 100, gui);
         universe.add(earth);
 
-        /*
-        Vector nF2 = new Vector(5,2,25);
-        SpaceObject moon = new SpaceObject("moon", 350, 550, 50000000000.0, nF2, 15, new int[]{0,255,0}, 10, gui);
+
+        Vector nF2 = new Vector(5,2,350);
+        SpaceObject moon = new SpaceObject("moon", 350, 550, 7970000000000.4, nF2, 3, new int[]{0,0,255}, 10, gui);
         universe.add(moon);
-        */
+
 
 
         
