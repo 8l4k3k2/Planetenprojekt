@@ -15,6 +15,7 @@ import javafx.scene.layout.Pane;
 //import javax.swing.event.ChangeListener;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.shape.Line;
 
 
 public class Controller implements Initializable {
@@ -79,14 +80,14 @@ public class Controller implements Initializable {
         }
         */
 
-        for (SpaceObject planet:universe){
+        for (SpaceObject planet: universe){
             paneDraw.getChildren().add(planet);
         }
         //Draw.drawPlanets(universe, paneDraw, radioButton_drawTail);
 
-        slider_sim_speed.setMin(10.0);
-        slider_sim_speed.setMax(1000.0);
-        slider_sim_speed.setValue(100.0);
+        slider_sim_speed.setMin(0.1);
+        slider_sim_speed.setMax(10.0);
+        slider_sim_speed.setValue(1.0);
 
         
         slider_sim_speed.valueProperty().addListener(new ChangeListener() {
@@ -125,5 +126,22 @@ public class Controller implements Initializable {
         //timeline.stop();
     }
 
+    @FXML private void radioButton_drawTail(ActionEvent event) throws InterruptedException {
+        if ( radioButton_drawTail.isSelected() ) {
+            System.out.println("RadioButton is selected");
+            for (SpaceObject planet: universe){
+                for (Line line: planet.getTail()) {
+                    paneDraw.getChildren().add(line);
+                }
+            }
+        } else {
+            System.out.println("RadioButton is DE-selected");
+            for (SpaceObject planet: universe){
+                for (Line line: planet.getTail()) {
+                    paneDraw.getChildren().remove(line);
+                }
+            }
+        }
 
+    }
 }

@@ -8,40 +8,40 @@ import javafx.scene.shape.Line;
 
 public class SpaceObject extends Circle {
     
-    private double x,y;
-    private double xNew,yNew;
+    private double x, y;
+    private double xNew, yNew;
     private double mass;
     private Vector velocityVector;
     private Vector velocityVectorNew;
     private int size;
-    private int thickness;
-    private int[] colour;
+    //private int thickness;
+    //private int[] colour;
     private String name;
 
-    private int tailSize=100;
-    private Line[] tail = new Line[tailSize];
-    private ArrayList<Double[]> pastCoordinates = new ArrayList<>();
-
-    //private ArrayList<Line> tail;
-    //private ArrayList<Circle> tail;
-    //private ArrayList<Point2D> tail;
+    private int tailSize;
+    private Line[] tail;
+    private ArrayList<Double[]> pastCoordinates;
     private int tailIndex;
     private int tailIncrement;
+
     private GuiElements gui;
 
+    private final Object lock = new Object();
+    
     SpaceObject(String name, double x, double y, double mass, Vector velocityVector, 
         int size, int[] colour, int tailSize, GuiElements gui) {
 
-        for (int i=0;i<tailSize;i++){
-            tail[i] = new Line();
-        }
+        this.gui = gui;
 
         this.x = x;
         this.y = y;
+        this.setCircleCoordinates();
 
         this.mass = mass;
         this.velocityVector = velocityVector;
 
+        pastCoordinates = new ArrayList<>();
+        
         this.name = name;
         this.setRadius(size);
         this.setFill(Color.rgb(colour[0],colour[1],colour[2]));
@@ -50,9 +50,10 @@ public class SpaceObject extends Circle {
         this.tailSize = tailSize;
         this.tailIndex = 0;
         this.tailIncrement = 100000;
-
-        this.gui=gui;
-        this.setCircleCoordinates();
+        this.tail = new Line[this.tailSize];
+        for (int i=0; i<this.tailSize; i++){
+            this.tail[i] = new Line();
+        }
     }
 
     public void setVelocityVector(Vector velocityVector) {
@@ -70,7 +71,7 @@ public class SpaceObject extends Circle {
     public int getSize() {
         return size;
     }
-
+    /*
     public void setThickness(int thickness) {
         this.thickness = thickness;
     }
@@ -78,7 +79,7 @@ public class SpaceObject extends Circle {
     public int getThickness() {
         return thickness;
     }
-
+    */
     public void setColour(int[] colour) {
         this.setFill(Color.color(colour[0],colour[1],colour[2]));
     }
@@ -141,8 +142,8 @@ public class SpaceObject extends Circle {
 
     
     public void addPositionVectorToCoordinates(Vector v){
-        this.xNew=this.x+v.x();
-        this.yNew=this.y+v.y();
+        this.xNew = this.x+v.x();
+        this.yNew = this.y+v.y();
     }
 
     public void setNewCoordinates(){
@@ -155,28 +156,43 @@ public class SpaceObject extends Circle {
         }
         this.tailIndex++;
         */
-        //this.addToPastCoordinates();
-        
-        this.x=this.xNew;
-        this.y=this.yNew;
-        this.velocityVector=this.velocityVectorNew;
+        //addToPastCoordinates();
+
+        //synchronized (lock) {
+            this.x = this.xNew;
+            this.y = this.yNew;
+            this.velocityVector = this.velocityVectorNew;
+        //}
     }
 
     private void addToPastCoordinates(){
-        if (getlLength(pastCoordinates,new Double[]{this.x,this.y})>1) {
+        //System.out.println("getLength() = " + getlLength(pastCoordinates, new Double[]{this.x,this.y}));
+        if ( getlLength(pastCoordinates, new Double[]{this.x,this.y}) > 1) {
             updateTail();
             tail[tailSize-1].setStartX(pastCoordinates.get(0)[0]);
             tail[tailSize-1].setStartY(pastCoordinates.get(0)[1]);
             tail[tailSize-1].setEndX(pastCoordinates.get(pastCoordinates.size()-1)[0]);
             tail[tailSize-1].setEndY(pastCoordinates.get(pastCoordinates.size()-1)[1]);
-            //pastCoordinates.clear();
+            pastCoordinates.clear();
         }
         this.pastCoordinates.add(new Double[]{this.x, this.y});
     }
 
     private void updateTail(){
-
-        for (int i=0;i<this.tail.length-1;i++){
+        for (int i=0; i<this.tail.length-1; i++){
+            /*
+            System.out.println("i="+i);
+            try {
+                System.out.println(this.tail[i]);
+            } catch (Exception ex) {
+                System.out.println("this.tail[i] geht nicht");
+            }
+            try {
+                System.out.println(this.tail[i+1]);
+            } catch (Exception ex) {
+                System.out.println("this.tail[i+1] geht nicht");
+            }
+            */
             this.tail[i].setStartX(this.tail[i+1].getStartX());
             this.tail[i].setStartY(this.tail[i+1].getStartY());
             this.tail[i].setEndX(this.tail[i+1].getEndX());
@@ -184,6 +200,10 @@ public class SpaceObject extends Circle {
         }
     }
 
+    public Line[] getTail() {
+        return this.tail;
+    }
+    
     /*
     private void addLineToTail(){
         
@@ -206,11 +226,10 @@ public class SpaceObject extends Circle {
 */
     public double getlLength(ArrayList<Double[]> l, Double[] newest){
         l.add(newest);
-        double length=0;
-            for (int i=0;i<l.size()-1;i++) {
-
-                length += Math.sqrt(Math.pow((l.get(i)[0] - l.get(i+1)[0]), 2) + Math.pow((l.get(i)[1] - l.get(i+1)[1]), 2));
-            }
+        double length = 0;
+        for (int i=0; i<l.size()-1; i++) {
+            length += Math.sqrt(Math.pow((l.get(i)[0] - l.get(i+1)[0]), 2) + Math.pow((l.get(i)[1] - l.get(i+1)[1]), 2));
+        }
         return length;
     }
 
