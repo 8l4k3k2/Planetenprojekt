@@ -69,13 +69,13 @@ public class Controller implements Initializable {
 
         slider_sim_speed.setMin(0.000001);
         slider_sim_speed.setMax(0.0001);
-        slider_sim_speed.setValue(0.00001);
-        startCalc.setVelocityFactor(slider_sim_speed.getValue());
+        slider_sim_speed.setValue(0.000005);
+        startCalc.setDeltaTime(slider_sim_speed.getValue());
         
         slider_sim_speed.valueProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue arg0, Object arg1, Object arg2) {
-                startCalc.setVelocityFactor(slider_sim_speed.getValue());
+                startCalc.setDeltaTime(slider_sim_speed.getValue());
             }
         });
 
