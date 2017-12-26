@@ -28,22 +28,8 @@ public class Controller implements Initializable {
 
     private ArrayList<SpaceObject> universe = new ArrayList<>();
 
-    /*
-    Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.03), new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent event) {
-            Draw.drawPlanets(universe, paneDraw, radioButton_drawTail);
-        }
-    }));
-    */
-
     Berechnungen startCalc = new Berechnungen(universe);
     AnimationTimer animation;
-
-
-    public void onCloseEvent(){
-        startCalc.stop();
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -61,9 +47,6 @@ public class Controller implements Initializable {
         Vector nF2 = new Vector(5,2,350);
         SpaceObject moon = new SpaceObject("moon", 350, 550, 7970000000000.4, nF2, 3, new int[]{0,0,255}, 10, gui);
         universe.add(moon);
-
-
-
         
         //printausgabe
         /*
@@ -83,12 +66,11 @@ public class Controller implements Initializable {
         for (SpaceObject planet: universe){
             paneDraw.getChildren().add(planet);
         }
-        //Draw.drawPlanets(universe, paneDraw, radioButton_drawTail);
 
-        slider_sim_speed.setMin(0.1);
-        slider_sim_speed.setMax(10.0);
-        slider_sim_speed.setValue(1.0);
-
+        slider_sim_speed.setMin(0.000001);
+        slider_sim_speed.setMax(0.0001);
+        slider_sim_speed.setValue(0.00001);
+        startCalc.setVelocityFactor(slider_sim_speed.getValue());
         
         slider_sim_speed.valueProperty().addListener(new ChangeListener() {
             @Override
@@ -102,7 +84,7 @@ public class Controller implements Initializable {
             public void handle(long now) {
                 for (SpaceObject so : universe) {
                     so.setCircleCoordinates();
-
+                    //System.out.println(so.getName() + "  " +so.getCenterX() + "  " + so.getCenterY());
                 }
             }
         };
@@ -111,19 +93,11 @@ public class Controller implements Initializable {
     }
 
     @FXML private void buttonStartSimulation(ActionEvent event) throws InterruptedException {
-        
-        //startCalc.start();
-
-        //timeline.getKeyFrames().add(new KeyFrame(Duration.ZERO, new KeyValue(slider.valueProperty(), 0)));
-        //timeline.setCycleCount(Timeline.INDEFINITE);
-        //timeline.play();
-        
         startCalc.start();
     }    
 
     @FXML private void buttonStopSimulation(ActionEvent event) throws InterruptedException {
         startCalc.stop();
-        //timeline.stop();
     }
 
     @FXML private void radioButton_drawTail(ActionEvent event) throws InterruptedException {
@@ -142,6 +116,9 @@ public class Controller implements Initializable {
                 }
             }
         }
+    }
 
+    public void onCloseEvent(){
+        startCalc.stop();
     }
 }

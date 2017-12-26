@@ -7,40 +7,32 @@ import static java.lang.Thread.State.TERMINATED;
 public class Berechnungen implements Runnable{
     private Thread t;
     private ArrayList<SpaceObject> universe;
-    private double timedif;
+    private double dt;
     private boolean runtime;
     private double velocityFactor; //=100;
     private double requestedVF;
     private boolean vFrequest=false;
 
-
     Berechnungen(ArrayList<SpaceObject> universe) {
         this.universe = universe;
-        this.timedif = 0.000001;
-        this.velocityFactor = 1.0;
     }
 
     @Override
     public void run(){
-        long start, end;
-        start = System.nanoTime();
-        this.runtime=true;
+        this.runtime = true;
         while (this.runtime) {
 
             if (vFrequest){ //manual lock
-                velocityFactor=requestedVF;
-                vFrequest=false;
+                velocityFactor = requestedVF;
+                vFrequest = false;
             }
 
-            for (SpaceObject sO : universe) {
-                end = System.nanoTime();
-                //this.timedif = (end-start) / Math.pow(10, 9);
-                this.timedif *= velocityFactor;
+            for (SpaceObject sO: universe) {
+                this.dt = velocityFactor;
                 moveall(sO);
-                start = end;
             }
-            for (SpaceObject sO : universe) {
-
+            
+            for (SpaceObject sO: universe) {
                 //sets x=x1,y=y1 and adds Line to tail
                 sO.setNewCoordinates();
             }
@@ -64,7 +56,7 @@ public class Berechnungen implements Runnable{
         totalAccelVector.multiplyToSelf(G);
 
         //velocityVector
-        totalAccelVector.multiplyToSelf(this.timedif);
+        totalAccelVector.multiplyToSelf(this.dt);
 
         //velocityVector(newton) and velocityVector from s0 added together
         Vector temp = sO.getVelocityVector().add(totalAccelVector);
@@ -72,7 +64,7 @@ public class Berechnungen implements Runnable{
         //set new velocityVector
         sO.setVelocityVectorNew(temp);
         //set new Coordinates
-        sO.addPositionVectorToCoordinates(sO.getVelocityVectorNew().multiply(this.timedif));
+        sO.addPositionVectorToCoordinates(sO.getVelocityVectorNew().multiply(this.dt));
 
 
     }
