@@ -10,7 +10,6 @@ import java.net.URL;
 
 public class Main extends Application {
     private FXMLLoader fxmlLoader;
-
     
     @Override
     public void start(Stage stage) throws Exception {
@@ -23,15 +22,8 @@ public class Main extends Application {
 
         stage.setScene(scene);
         stage.show();
-        /*
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
-        
-        Scene scene = new Scene(root);
-        
-        stage.setScene(scene);
-        stage.show();
-        */
     }
+    
     @Override
     public void stop() {
         ((Controller) fxmlLoader.getController()).onCloseEvent();

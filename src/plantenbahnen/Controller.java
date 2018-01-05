@@ -67,9 +67,9 @@ public class Controller implements Initializable {
             paneDraw.getChildren().add(planet);
         }
 
-        slider_sim_speed.setMin(0.000001);
+        slider_sim_speed.setMin(0.00001);
         slider_sim_speed.setMax(0.0001);
-        slider_sim_speed.setValue(0.000005);
+        slider_sim_speed.setValue(0.00002);
         startCalc.setDeltaTime(slider_sim_speed.getValue());
         
         slider_sim_speed.valueProperty().addListener(new ChangeListener() {
@@ -104,7 +104,9 @@ public class Controller implements Initializable {
         if ( radioButton_drawTail.isSelected() ) {
             System.out.println("RadioButton is selected");
             for (SpaceObject planet: universe){
+                System.out.println(planet.getTail());
                 for (Line line: planet.getTail()) {
+                    System.out.println(line);
                     paneDraw.getChildren().add(line);
                 }
             }
