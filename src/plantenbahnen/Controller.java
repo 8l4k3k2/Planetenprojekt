@@ -15,7 +15,7 @@ import javafx.scene.layout.Pane;
 //import javax.swing.event.ChangeListener;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import javafx.scene.shape.Line;
+import javafx.scene.shape.Circle;
 
 
 public class Controller implements Initializable {
@@ -35,17 +35,19 @@ public class Controller implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         GuiElements gui = new GuiElements(paneDraw, 0.1);
+        int tailLength = 100;
+        textField_tailLenght.setText(Integer.toString(tailLength));
         
-        SpaceObject sun = new SpaceObject("sun", 0, 0, 797000000000000000.4, new Vector(), 15, new int[]{0,0,255}, 10, gui);
+        SpaceObject sun = new SpaceObject("sun", 0, 0, 797000000000000000.4, new Vector(), 15, new int[]{0,0,255}, tailLength, gui);
         universe.add(sun);
 
         Vector nF = new Vector(-5,2,350);
-        SpaceObject earth = new SpaceObject("earth", 450, 450, 50000000000000.0, nF, 7, new int[]{0,255,0}, 100, gui);
+        SpaceObject earth = new SpaceObject("earth", 450, 450, 50000000000000.0, nF, 7, new int[]{0,255,0}, tailLength, gui);
         universe.add(earth);
 
 
         Vector nF2 = new Vector(5,2,350);
-        SpaceObject moon = new SpaceObject("moon", 350, 550, 7970000000000.4, nF2, 3, new int[]{0,0,255}, 10, gui);
+        SpaceObject moon = new SpaceObject("moon", 350, 550, 7970000000000.4, nF2, 3, new int[]{0,0,255}, tailLength, gui);
         universe.add(moon);
         
         //printausgabe
@@ -79,6 +81,23 @@ public class Controller implements Initializable {
             }
         });
 
+        int maxInteger = 1000000000;
+        textField_tailLenght.textProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue arg0, Object arg1, Object arg2) {
+                //startCalc.setDeltaTime(slider_sim_speed.getValue());
+                for (SpaceObject so : universe) {
+                    try {
+                        so.setTailSize(Integer.parseInt(textField_tailLenght.getText()));
+                    } catch (NumberFormatException n) {
+                        // Entered integer is too big, so, set the maximum manually
+                        so.setTailSize(maxInteger);
+                        textField_tailLenght.setText(Integer.toString(maxInteger));
+                    }
+                }
+            }
+        });
+        
         animation = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -102,19 +121,16 @@ public class Controller implements Initializable {
 
     @FXML private void radioButton_drawTail(ActionEvent event) throws InterruptedException {
         if ( radioButton_drawTail.isSelected() ) {
-            System.out.println("RadioButton is selected");
             for (SpaceObject planet: universe){
-                System.out.println(planet.getTail());
-                for (Line line: planet.getTail()) {
-                    System.out.println(line);
-                    paneDraw.getChildren().add(line);
-                }
+                planet.setDrawTail(true);
             }
         } else {
-            System.out.println("RadioButton is DE-selected");
             for (SpaceObject planet: universe){
-                for (Line line: planet.getTail()) {
-                    paneDraw.getChildren().remove(line);
+                planet.setDrawTail(false);
+                if ( planet.getTail().size() > 0 ) {
+                    for (Circle c: planet.getTail()) {
+                        paneDraw.getChildren().remove(c);
+                    }
                 }
             }
         }

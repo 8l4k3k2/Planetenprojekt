@@ -1,9 +1,9 @@
 package plantenbahnen;
 
 import java.util.ArrayList;
+import javafx.application.Platform;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
 
 
 public class SpaceObject extends Circle {
@@ -18,8 +18,10 @@ public class SpaceObject extends Circle {
     //private int[] colour;
     private String name;
 
+    private boolean drawTail;
     private int tailSize;
-    private Line[] tail;
+    //private Line[] tail;
+    private ArrayList<Circle> tail;
     private ArrayList<Double[]> pastCoordinates;
     private int tailIndex;
     private int tailIncrement;
@@ -46,14 +48,17 @@ public class SpaceObject extends Circle {
         this.setRadius(size);
         this.setFill(Color.rgb(colour[0],colour[1],colour[2]));
 
-        //this.tail = new ArrayList<>();
+        this.drawTail = false;
+        this.tail = new ArrayList<>();
         this.tailSize = tailSize;
         this.tailIndex = 0;
-        this.tailIncrement = 100000;
+        this.tailIncrement = 10000;
+        /*
         this.tail = new Line[this.tailSize];
         for (int i=0; i<this.tailSize; i++){
             this.tail[i] = new Line();
         }
+        */
     }
 
     public void setVelocityVector(Vector velocityVector) {
@@ -71,15 +76,23 @@ public class SpaceObject extends Circle {
     public int getSize() {
         return size;
     }
-    /*
-    public void setThickness(int thickness) {
-        this.thickness = thickness;
+    
+    public void setTailSize(int tailSize) {
+        this.tailSize = tailSize;
     }
 
-    public int getThickness() {
-        return thickness;
+    public int getTailSize() {
+        return this.tailSize;
     }
-    */
+    
+    public void setDrawTail(boolean drawTail) {
+        this.drawTail = drawTail;
+    }
+    
+    public boolean getDrawTail() {
+        return this.drawTail;
+    }
+    
     public void setColour(int[] colour) {
         this.setFill(Color.color(colour[0],colour[1],colour[2]));
     }
@@ -158,13 +171,32 @@ public class SpaceObject extends Circle {
         */
         //addToPastCoordinates();
 
-        //synchronized (lock) {
-            this.x = this.xNew;
-            this.y = this.yNew;
-            this.velocityVector = this.velocityVectorNew;
-        //}
+        this.tailIndex++;
+        if ( this.drawTail && this.tailIndex % this.tailIncrement == 0 ) {
+            Circle c = new Circle();
+            c.setCenterX(this.x * this.gui.getScaleFactor() + this.gui.getPaneHalfWidth());
+            c.setCenterY(this.y * this.gui.getScaleFactor() + this.gui.getPaneHalfHeight());
+            c.setRadius(this.getRadius()/4.0);
+            c.setFill(this.getFill());
+            this.tail.add(0, c);
+            // We need Platform.runlater() in order to modify the JavaFX GUI thread
+            Platform.runLater(() -> this.gui.getPane().getChildren().add(c));
+            while ( this.tail.size() > this.tailSize ) {
+                // some circle objects remain on the pane, so, make them at least
+                // fully translucent
+                this.tail.get(this.tail.size()-1).setOpacity(0.0);
+                // delete from pane and tail
+                Platform.runLater(() -> this.gui.getPane().getChildren().remove(this.tail.get(this.tail.size()-1)));
+                this.tail.remove(this.tail.size()-1);
+            }
+        }
+        
+        this.x = this.xNew;
+        this.y = this.yNew;
+        this.velocityVector = this.velocityVectorNew;
     }
 
+    /*
     private void addToPastCoordinates(){
         //System.out.println("getLength() = " + getlLength(pastCoordinates, new Double[]{this.x,this.y}));
         if ( getlLength(pastCoordinates, new Double[]{this.x,this.y}) > 1) {
@@ -177,30 +209,18 @@ public class SpaceObject extends Circle {
         }
         this.pastCoordinates.add(new Double[]{this.x, this.y});
     }
-
+    
     private void updateTail(){
         for (int i=0; i<this.tail.length-1; i++){
-            /*
-            System.out.println("i="+i);
-            try {
-                System.out.println(this.tail[i]);
-            } catch (Exception ex) {
-                System.out.println("this.tail[i] geht nicht");
-            }
-            try {
-                System.out.println(this.tail[i+1]);
-            } catch (Exception ex) {
-                System.out.println("this.tail[i+1] geht nicht");
-            }
-            */
             this.tail[i].setStartX(this.tail[i+1].getStartX());
             this.tail[i].setStartY(this.tail[i+1].getStartY());
             this.tail[i].setEndX(this.tail[i+1].getEndX());
             this.tail[i].setEndY(this.tail[i+1].getEndY());
         }
     }
-
-    public Line[] getTail() {
+    */
+    
+    public ArrayList<Circle> getTail() {
         return this.tail;
     }
     
@@ -221,10 +241,9 @@ public class SpaceObject extends Circle {
         }
 
     }
-
-
-*/
-    public double getlLength(ArrayList<Double[]> l, Double[] newest){
+    */
+    
+    public double getlLength(ArrayList<Double[]> l, Double[] newest) {
         l.add(newest);
         double length = 0;
         for (int i=0; i<l.size()-1; i++) {
@@ -233,11 +252,8 @@ public class SpaceObject extends Circle {
         return length;
     }
 
-
-
-    public void setCircleCoordinates(){
+    public void setCircleCoordinates() {
         this.setCenterX(this.x * this.gui.getScaleFactor() + this.gui.getPaneHalfWidth());
         this.setCenterY(this.y * this.gui.getScaleFactor() + this.gui.getPaneHalfHeight());
     }
-
 }

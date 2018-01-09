@@ -16,11 +16,14 @@ public class GuiElements {
         this.paneHalfHeight = pane.getPrefHeight() / 2.0;
     }
 
-
     public double getScaleFactor() {
         return scaleFactor;
     }
 
+    public Pane getPane() {
+        return this.pane;
+    }
+    
     public double getPaneHalfWidth() {
         return paneHalfWidth;
     }
@@ -28,7 +31,4 @@ public class GuiElements {
     public double getPaneHalfHeight() {
         return paneHalfHeight;
     }
-
-
-
 }
