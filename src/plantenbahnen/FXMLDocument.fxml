@@ -1,29 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="AnchorPane" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="plantenbahnen.Controller">
-   <children>
-      <Pane fx:id="paneDraw" prefHeight="700.0" prefWidth="700.0" />
-      <Pane fx:id="paneControls" layoutX="700.0" prefHeight="700.0" prefWidth="200.0">
-         <children>
-            <Button fx:id="buttonStartSimulation" layoutX="30.0" layoutY="21.0" mnemonicParsing="false" onAction="#buttonStartSimulation" prefHeight="25.0" prefWidth="140.0" text="Start" />
-            <Button fx:id="buttonStopSimulation" layoutX="30.0" layoutY="59.0" mnemonicParsing="false" onAction="#buttonStopSimulation" prefHeight="25.0" prefWidth="140.0" text="Pause" />
-
-            <Label alignment="CENTER" layoutX="1.0" layoutY="130.0" prefHeight="15.0" prefWidth="200.0" text="Sim.-Geschwindigkeit" />
-            <Slider fx:id="slider_sim_speed" layoutX="30.0" layoutY="154.0" prefHeight="15.0" prefWidth="147.0" />
-
-            <RadioButton fx:id="radioButton_drawTail" layoutX="30.0" layoutY="214.0" mnemonicParsing="false" onAction="#radioButton_drawTail" text="Zeichne Trajektorie" />
-
-            <Label layoutX="30.0" layoutY="247.0" prefHeight="15.0" prefWidth="96.0" text="Länge" />
-            <TextField fx:id="textField_tailLenght" layoutX="86.0" layoutY="242.0" prefHeight="25.0" prefWidth="96.0" />
-         </children>
-      </Pane>
-      <Separator layoutX="700.0" orientation="VERTICAL" prefHeight="700.0" />
-   </children>
+<AnchorPane fx:id="AnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="plantenbahnen.Controller">
+  <children>
+    <Pane fx:id="paneDraw" layoutX="0.0" prefHeight="700.0" prefWidth="700.0" />
+    <Pane fx:id="paneControls" layoutX="700.0" prefHeight="700.0" prefWidth="200.0">
+      <children>
+        <Button fx:id="buttonStartSimulation" layoutX="30.0" layoutY="21.0" mnemonicParsing="false" onAction="#buttonStartSimulation" prefHeight="25.0" prefWidth="140.0" text="Start" />
+        <Button fx:id="buttonStopSimulation" layoutX="30.0" layoutY="59.0" mnemonicParsing="false" onAction="#buttonStopSimulation" prefHeight="25.0" prefWidth="140.0" text="Pause" />
+        <Label alignment="CENTER" layoutX="1.0" layoutY="130.0" prefHeight="15.0" prefWidth="200.0" text="Sim.-Geschwindigkeit" />
+        <Slider fx:id="slider_sim_speed" layoutX="30.0" layoutY="154.0" prefHeight="15.0" prefWidth="147.0" />
+        <RadioButton fx:id="radioButton_drawTail" layoutX="30.0" layoutY="214.0" mnemonicParsing="false" onAction="#radioButton_drawTail" text="Zeichne Trajektorie" />
+        <Label layoutX="30.0" layoutY="247.0" prefHeight="15.0" prefWidth="96.0" text="Länge" />
+        <TextField fx:id="textField_tailLenght" layoutX="86.0" layoutY="242.0" prefHeight="25.0" prefWidth="96.0" />
+      </children>
+    </Pane>
+    <Separator layoutX="700.0" orientation="VERTICAL" prefHeight="700.0" />
+  </children>
 </AnchorPane>

@@ -41,15 +41,20 @@ public class Controller implements Initializable {
         SpaceObject sun = new SpaceObject("sun", 0, 0, 797000000000000000.4, new Vector(), 15, new int[]{0,0,255}, tailLength, gui);
         universe.add(sun);
 
-        Vector nF = new Vector(-5,2,350);
-        SpaceObject earth = new SpaceObject("earth", 450, 450, 50000000000000.0, nF, 7, new int[]{0,255,0}, tailLength, gui);
+        Vector nF = new Vector(-5,2,110);
+        SpaceObject earth = new SpaceObject("earth", 3000, 3000, 50000000000000000.0, nF, 7, new int[]{0,255,0}, tailLength, gui);
         universe.add(earth);
 
-
-        Vector nF2 = new Vector(5,2,350);
-        SpaceObject moon = new SpaceObject("moon", 350, 550, 7970000000000.4, nF2, 3, new int[]{0,0,255}, tailLength, gui);
+        Vector nF2 = new Vector(2,2,2.5);
+        SpaceObject moon = new SpaceObject("moon", 2800, 2800, 797000000000.4, nF2, 3, new int[]{255,0,0}, tailLength, gui);
         universe.add(moon);
-        
+
+
+        Vector nF3 = new Vector(2,10,250);
+        SpaceObject p2 = new SpaceObject("moon", -850, 650, 7970000000000.4, nF3, 3, new int[]{0,0,0}, tailLength, gui);
+        universe.add(p2);
+
+
         //printausgabe
         /*
         while (true){
@@ -103,6 +108,7 @@ public class Controller implements Initializable {
             public void handle(long now) {
                 for (SpaceObject so : universe) {
                     so.setCircleCoordinates();
+
                     //System.out.println(so.getName() + "  " +so.getCenterX() + "  " + so.getCenterY());
                 }
             }
