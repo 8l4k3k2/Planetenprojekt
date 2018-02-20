@@ -149,6 +149,7 @@ public class Controller implements Initializable {
             public void handle(long now) {
                 for (SpaceObject so : universe) {
                     so.setCircleCoordinates();
+
                     //System.out.println(so.getName() + "  " +so.getCenterX() + "  " + so.getCenterY());
                 }
             }
