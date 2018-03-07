@@ -36,7 +36,7 @@ public class SpaceObject extends Circle {
     private final Object lock = new Object();
     
     SpaceObject(String name, double x, double y, double mass, Vector velocityVector, 
-        int size, int[] colour, int tailSize, GuiElements gui) {
+        int size, int[] colour, GuiElements gui) {
 
         this.gui = gui;
 
@@ -55,11 +55,11 @@ public class SpaceObject extends Circle {
 
         this.drawTail = false;
         this.tail = new ArrayList<>();
-        this.tailSize = tailSize;
+        //this.tailSize = tailSize;
         this.tailIndex = 0;
         this.tailIncrement = 10000;
 
-        Platform.runLater(() -> this.gui.getPane().getChildren().add(this.line));
+        Platform.runLater(() -> this.gui.getPaneDraw().getChildren().add(this.line));
         /*
         this.tail = new Line[this.tailSize];
         for (int i=0; i<this.tailSize; i++){
@@ -196,13 +196,13 @@ public class SpaceObject extends Circle {
             c.setFill(this.getFill());
             this.tail.add(0, c);
             // We need Platform.runlater() in order to modify the JavaFX GUI thread
-            Platform.runLater(() -> this.gui.getPane().getChildren().add(c));
-            while ( this.tail.size() > this.tailSize ) {
+            Platform.runLater(() -> this.gui.getPaneDraw().getChildren().add(c));
+            while ( this.tail.size() > Integer.parseInt(this.gui.getTextFieldTailLength().getText()) ) {
                 // some circle objects remain on the pane, so, make them at least
                 // fully translucent
                 this.tail.get(this.tail.size()-1).setOpacity(0.0);
                 // delete from pane and tail
-                Platform.runLater(() -> this.gui.getPane().getChildren().remove(this.tail.get(this.tail.size()-1)));
+                Platform.runLater(() -> this.gui.getPaneDraw().getChildren().remove(this.tail.get(this.tail.size()-1)));
                 this.tail.remove(this.tail.size()-1);
             }
         }
