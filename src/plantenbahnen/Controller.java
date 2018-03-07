@@ -5,17 +5,15 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javafx.animation.AnimationTimer;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.Pane;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
@@ -27,8 +25,9 @@ public class Controller implements Initializable {
     @FXML private Pane paneDraw;
     @FXML private Pane paneControls;
     @FXML private Slider slider_sim_speed;
-    @FXML private RadioButton radioButton_drawTail;
-    @FXML private TextField textField_tailLength;
+    @FXML private CheckBox checkBox_drawTail;
+    @FXML private Slider slider_tailLength;
+    //@FXML private TextField textField_tailLength;
     @FXML private ChoiceBox choiceBox_scenario;
 
     private ObservableList scenariosToChose; //
@@ -41,7 +40,8 @@ public class Controller implements Initializable {
 
         int tailLength = 100;
         GuiElements gui = new GuiElements(anchorPane, paneDraw, paneControls, 0.1,
-            slider_sim_speed, radioButton_drawTail, textField_tailLength, tailLength, choiceBox_scenario);
+            slider_sim_speed, checkBox_drawTail, slider_tailLength, 
+            tailLength, choiceBox_scenario);
 
         scenariosToChose = FXCollections.observableArrayList();
 	scenariosToChose.add(" ");
@@ -132,8 +132,8 @@ public class Controller implements Initializable {
         }
     }
 
-    @FXML private void radioButton_drawTail(ActionEvent event) throws InterruptedException {
-        if ( radioButton_drawTail.isSelected() ) {
+    @FXML private void checkBox_drawTail(ActionEvent event) throws InterruptedException {
+        if ( checkBox_drawTail.isSelected() ) {
             for (SpaceObject planet: universe){
                 planet.setDrawTail(true);
             }

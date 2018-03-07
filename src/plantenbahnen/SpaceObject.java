@@ -197,7 +197,7 @@ public class SpaceObject extends Circle {
             this.tail.add(0, c);
             // We need Platform.runlater() in order to modify the JavaFX GUI thread
             Platform.runLater(() -> this.gui.getPaneDraw().getChildren().add(c));
-            while ( this.tail.size() > Integer.parseInt(this.gui.getTextFieldTailLength().getText()) ) {
+            while ( this.tail.size() > (int) this.gui.getSliderTailLength().getValue() ) {
                 // some circle objects remain on the pane, so, make them at least
                 // fully translucent
                 this.tail.get(this.tail.size()-1).setOpacity(0.0);
