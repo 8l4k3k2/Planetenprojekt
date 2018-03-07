@@ -2,11 +2,10 @@ package plantenbahnen;
 
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Rectangle;
 
 public class GuiElements {
 
@@ -19,14 +18,13 @@ public class GuiElements {
     private Slider slider_sim_speed;
     private CheckBox checkBox_drawTail;
     private Slider slider_tailLength;
-    //private TextField textField_tailLength;
     private int tailLength;
     private ChoiceBox choiceBox_scenario;
-
+    private Rectangle rectangleClipForPane;
     
     public GuiElements (AnchorPane anchorPane, Pane paneDraw, Pane paneControls, double scaleFactor,
             Slider slider_sim_speed, CheckBox checkBox_drawTail, Slider slider_tailLength, 
-            int tailLength, ChoiceBox choiceBox_scenario) {
+            int tailLength, ChoiceBox choiceBox_scenario, Rectangle rectangleClipForPane) {
         this.anchorPane = anchorPane;
         this.paneDraw = paneDraw;
         this.paneControls = paneControls;
@@ -36,10 +34,9 @@ public class GuiElements {
         this.slider_sim_speed = slider_sim_speed;
         this.checkBox_drawTail = checkBox_drawTail;
         this.slider_tailLength = slider_tailLength;
-        //this.textField_tailLength = textField_tailLength;
         this.tailLength = tailLength;
-        //this.textField_tailLength.setText(Integer.toString(tailLength));
         this.choiceBox_scenario = choiceBox_scenario;
+        this.rectangleClipForPane = rectangleClipForPane;
     }
 
     public double getScaleFactor() {
@@ -72,5 +69,9 @@ public class GuiElements {
     
     public CheckBox getCheckBoxDrawTail() {
         return this.checkBox_drawTail;
+    }
+    
+    public Rectangle getRectangleClipForPane() {
+        return this.rectangleClipForPane;
     }
 }

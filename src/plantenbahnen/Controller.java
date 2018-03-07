@@ -14,15 +14,16 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.Pane;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 
 
 public class Controller implements Initializable {
     
     @FXML private AnchorPane anchorPane;
     @FXML private Pane paneDraw;
+    @FXML private Rectangle rectangleForClipping;
     @FXML private Pane paneControls;
     @FXML private Slider slider_sim_speed;
     @FXML private CheckBox checkBox_drawTail;
@@ -33,15 +34,17 @@ public class Controller implements Initializable {
     private ObservableList scenariosToChose; //
     private ArrayList<SpaceObject> universe = new ArrayList<>();
     Berechnungen startCalc = new Berechnungen(universe);
-    AnimationTimer animation;
+    Rectangle rectangleClipForPane = new Rectangle(700, 700);
+    
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
         int tailLength = 100;
+        paneDraw.setClip(rectangleClipForPane);
         GuiElements gui = new GuiElements(anchorPane, paneDraw, paneControls, 0.1,
             slider_sim_speed, checkBox_drawTail, slider_tailLength, 
-            tailLength, choiceBox_scenario);
+            tailLength, choiceBox_scenario, rectangleClipForPane);
 
         scenariosToChose = FXCollections.observableArrayList();
 	scenariosToChose.add(" ");
