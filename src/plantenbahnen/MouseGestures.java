@@ -19,10 +19,10 @@ public class MouseGestures {
             orgSceneX = t.getSceneX();
             orgSceneY = t.getSceneY();
             SpaceObject p = (SpaceObject) t.getSource();
-            System.out.println(p.getCenterX() + "  " + p.getCenterY());
+            //System.out.println(p.getCenterX() + "  " + p.getCenterY());
             orgTranslateX = p.getCenterX();
             orgTranslateY = p.getCenterY();
-
+            /*
             if (t.isSecondaryButtonDown()) {
                 System.out.println("Right button clicked on "); // + p.getNameOfNode());
                 // open a window with selection(s):
@@ -30,6 +30,7 @@ public class MouseGestures {
             } else {
                 System.out.println("Left button clicked on "); // + p.getNameOfNode());
             }
+            */
         }
     };
 

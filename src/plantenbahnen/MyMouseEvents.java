@@ -1,14 +1,62 @@
 package plantenbahnen;
 
-import static com.sun.javafx.util.Utils.clamp;
+import java.util.ArrayList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Font;
+import javafx.scene.shape.Circle;
 
 public class MyMouseEvents {
+
+    public static void nodeMouseEvents(SpaceObject planet, ArrayList<SpaceObject> universe) {
+        // Context menu popping up on right click with mouse
+        ContextMenu contextMenuForNodes = new ContextMenu();
+
+        // Define items of the context menu
+        MenuItem itemFocus = new MenuItem("Set focus on this space object");
+        MenuItem itemDelete = new MenuItem("Delete this space object");
+
+        // Define an event handler for an item
+        itemFocus.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("Focusing on " + planet.getName());
+                
+            }
+        });
+
+        // Define an event handler for an item
+        itemDelete.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                universe.remove(planet);
+                planet.getGui().getPaneDraw().getChildren().remove(planet);
+                for (Circle c: planet.getTail()) {
+                    planet.getGui().getPaneDraw().getChildren().remove(c);
+                }
+            }
+        });
+
+        // Add item(s) to the context menu
+        contextMenuForNodes.getItems().add(itemFocus);
+        contextMenuForNodes.getItems().add(itemDelete);
+
+        // Define context menu for a node
+        planet.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent t) {
+                if (t.getButton() == MouseButton.SECONDARY) {
+                    contextMenuForNodes.show(planet, t.getScreenX(), t.getScreenY());
+                } else {
+                    contextMenuForNodes.hide();
+                }
+            }
+        });
+    } // nodeMouseEvents
 
     public static void paneMouseEvents(Pane pane) {
 
@@ -30,13 +78,11 @@ public class MyMouseEvents {
                 if (event.getButton() == MouseButton.PRIMARY) {
                     pane.setTranslateX(sceneDragContext.translateAnchorX + event.getSceneX() - sceneDragContext.mouseAnchorX);
                     pane.setTranslateY(sceneDragContext.translateAnchorY + event.getSceneY() - sceneDragContext.mouseAnchorY);
-                    
-                    
                 }
                 event.consume();
             }
         });
-        
+
         /*
         // Zoom in and out focusing on the point where the mouse is
         pane.setOnScroll(new EventHandler<ScrollEvent>() {
@@ -97,6 +143,6 @@ public class MyMouseEvents {
                 event.consume();
             }
         });
-        */
+         */
     } // paneMouseEvent
 }
