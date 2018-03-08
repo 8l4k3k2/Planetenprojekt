@@ -14,14 +14,10 @@ public class SpaceObject extends Circle {
     private double mass;
     private Vector velocityVector;
     private Vector velocityVectorNew;
-    private int size;
-    //private int thickness;
-    //private int[] colour;
     private String name;
 
     private boolean drawTail;
     private int tailSize;
-    //private Line[] tail;
     private ArrayList<Circle> tail;
     private ArrayList<Double[]> pastCoordinates;
     private int tailIndex;
@@ -36,13 +32,12 @@ public class SpaceObject extends Circle {
     private final Object lock = new Object();
     
     SpaceObject(String name, double x, double y, double mass, Vector velocityVector, 
-        int size, int[] colour, GuiElements gui) {
+        int radius, int[] colour, GuiElements gui) {
 
         this.gui = gui;
 
         this.x = x;
         this.y = y;
-        this.setCircleCoordinates();
 
         this.mass = mass;
         this.velocityVector = velocityVector;
@@ -50,7 +45,7 @@ public class SpaceObject extends Circle {
         pastCoordinates = new ArrayList<>();
         
         this.name = name;
-        this.setRadius(size);
+        this.setRadius(radius);
         this.setFill(Color.rgb(colour[0],colour[1],colour[2]));
 
         this.drawTail = false;
@@ -68,6 +63,10 @@ public class SpaceObject extends Circle {
         */
     }
 
+    public GuiElements getGui() {
+        return this.gui;
+    }
+    
     public void setVelocityVector(Vector velocityVector) {
         this.velocityVector = velocityVector;
     }
@@ -76,14 +75,6 @@ public class SpaceObject extends Circle {
         return this.velocityVector;
     }
 
-    public void setSize(int size) {
-        this.size = size;
-    }
-
-    public int getSize() {
-        return size;
-    }
-    
     public void setTailSize(int tailSize) {
         this.tailSize = tailSize;
     }

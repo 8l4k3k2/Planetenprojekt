@@ -2,15 +2,17 @@ package plantenbahnen;
 
 import java.util.ArrayList;
 import javafx.animation.AnimationTimer;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 
 public class Draw {
 
-    public static void draw(GuiElements gui, ArrayList<SpaceObject> universe, Berechnungen startCalc) {
+    public static void draw(GuiElements gui, ArrayList<SpaceObject> universe) {
+        
+        MouseGestures mg = new MouseGestures();
         
         gui.getPaneDraw().getChildren().clear();
         for (SpaceObject planet: universe){
+            mg.makeDraggable(planet);
+            planet.setCircleCoordinates();
             gui.getPaneDraw().getChildren().add(planet);
         }
 

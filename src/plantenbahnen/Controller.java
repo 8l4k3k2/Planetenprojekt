@@ -73,6 +73,8 @@ public class Controller implements Initializable {
             }
         });
 
+        // Set the mouse events for the pane
+	//MyMouseEvents.paneMouseEvents(gui.getPaneDraw());
         
         anchorPane.widthProperty().addListener((ov, oldValue, newValue) -> {
 
@@ -85,7 +87,7 @@ public class Controller implements Initializable {
             
             gui.setPaneHalfWidth();
             
-            Draw.draw(gui, universe, startCalc);
+            Draw.draw(gui, universe);
         });
         anchorPane.heightProperty().addListener((ov, oldValue, newValue) -> {
 
@@ -98,10 +100,9 @@ public class Controller implements Initializable {
 
             gui.setPaneHalfHeight();
             
-            Draw.draw(gui, universe, startCalc);
+            Draw.draw(gui, universe);
         });
 
-        
         scenariosToChose = FXCollections.observableArrayList();
 	scenariosToChose.add(" ");
         scenariosToChose.add("Sonne, Erde, Mond");
@@ -120,7 +121,7 @@ public class Controller implements Initializable {
                 Vector nF2 = new Vector(5,2,350);
                 SpaceObject moon = new SpaceObject("moon", 350, 550, 7970000000000.4, nF2, 3, new int[]{0,0,255}, gui);
                 universe.add(moon);
-                Draw.draw(gui, universe, startCalc);
+                Draw.draw(gui, universe);
             } else if ( choiceBox_scenario.getValue() == "Vier Planeten" ) {
                 SpaceObject sun = new SpaceObject("sun", 0, 0, 797000000000000000.4, new Vector(), 15, new int[]{0,0,255}, gui);
                 universe.add(sun);
@@ -133,7 +134,7 @@ public class Controller implements Initializable {
                 Vector nF3 = new Vector(2,10,250);
                 SpaceObject p2 = new SpaceObject("moon", -850, 650, 7970000000000.4, nF3, 3, new int[]{0,0,0}, gui);
                 universe.add(p2);
-                Draw.draw(gui, universe, startCalc);
+                Draw.draw(gui, universe);
             } else if ( choiceBox_scenario.getValue() == "Vier Planeten 2" ) {    
                 Vector star1F = new Vector(0,2,60); //81.5
                 SpaceObject star1 = new SpaceObject("star1", -2000, 0, 797000000000000000.4, star1F, 15, new int[]{0,0,255}, gui);
@@ -147,7 +148,7 @@ public class Controller implements Initializable {
                 Vector nF4 = new Vector(0,-2,250);
                 SpaceObject obj4 = new SpaceObject("moon", 1000, 0, 7970000000000.4, nF4, 3, new int[]{255,0,0}, gui);
                 universe.add(obj4);
-                Draw.draw(gui, universe, startCalc);
+                Draw.draw(gui, universe);
             }
         });
     }
