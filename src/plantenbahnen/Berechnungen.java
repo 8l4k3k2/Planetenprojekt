@@ -12,9 +12,11 @@ public class Berechnungen implements Runnable{
     private double dt;
     private double requestedDT;
     private boolean requestSetDT = false;
+    private GuiElements gui;
 
-    Berechnungen(ArrayList<SpaceObject> universe) {
+    Berechnungen(ArrayList<SpaceObject> universe, GuiElements gui) {
         this.universe = universe;
+        this.gui = gui;
     }
 
     @Override
@@ -70,18 +72,20 @@ public class Berechnungen implements Runnable{
     }
 
     void start(){
-        if (t == null){
+        if (t == null || t.getState() == TERMINATED){
             t = new Thread(this);
             t.start();
+            gui.setSimulationStatus(1);
         }
-        if (t.getState() == TERMINATED) {
+        /*if (t.getState() == TERMINATED) {
             t = new Thread(this);
             t.start();
-        }
+        }*/
     }
     
     void stop(){
         this.runtime = false;
+        gui.setSimulationStatus(0);
     }
 
     public void setDeltaTime(double dt) {

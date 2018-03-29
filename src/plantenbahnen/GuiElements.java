@@ -23,6 +23,7 @@ public class GuiElements {
     private int tailLength;
     private ChoiceBox choiceBox_scenario;
     private Rectangle rectangleClipForPane;
+    private int simulationStatus;
     
     public GuiElements (AnchorPane anchorPane, Pane paneDraw, Pane paneControls, 
             Separator panesSeparator, double scaleFactor,
@@ -41,10 +42,23 @@ public class GuiElements {
         this.tailLength = tailLength;
         this.choiceBox_scenario = choiceBox_scenario;
         this.rectangleClipForPane = rectangleClipForPane;
+        this.simulationStatus = 0;
     }
 
     public double getScaleFactor() {
-        return scaleFactor;
+        return this.scaleFactor;
+    }
+
+    public void setScaleFactor(double sf) {
+        this.scaleFactor = sf;
+    }
+
+    public int getSimulationStatus() {
+        return this.simulationStatus;
+    }
+
+    public void setSimulationStatus(int status) {
+        this.simulationStatus = status;
     }
 
     public Pane getPaneDraw() {

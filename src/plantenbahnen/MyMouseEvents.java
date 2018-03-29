@@ -12,7 +12,8 @@ import javafx.scene.shape.Circle;
 
 public class MyMouseEvents {
 
-    public static void nodeMouseEvents(SpaceObject planet, ArrayList<SpaceObject> universe) {
+    public static void nodeMouseEvents(SpaceObject planet, ArrayList<SpaceObject> universe, Pane pane, GuiElements gui) {
+        
         // Context menu popping up on right click with mouse
         ContextMenu contextMenuForNodes = new ContextMenu();
 
@@ -26,6 +27,18 @@ public class MyMouseEvents {
             public void handle(ActionEvent event) {
                 System.out.println("Focusing on " + planet.getName());
                 
+
+                //pane.setLayoutX(planet.getGui().getPaneHalfWidth() - planet.getCenterX());
+                //pane.setLayoutY(planet.getGui().getPaneHalfHeight() - planet.getCenterY());
+                
+                planet.centerXProperty().addListener((ov, oldValue, newValue) -> {
+                    pane.setLayoutX(planet.getGui().getPaneHalfWidth() - newValue.doubleValue());
+                });
+                planet.centerYProperty().addListener((ov, oldValue, newValue) -> {
+                    pane.setLayoutY(planet.getGui().getPaneHalfHeight() - newValue.doubleValue());
+                });
+                
+                
             }
         });
 
@@ -33,10 +46,12 @@ public class MyMouseEvents {
         itemDelete.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                universe.remove(planet);
-                planet.getGui().getPaneDraw().getChildren().remove(planet);
-                for (Circle c: planet.getTail()) {
-                    planet.getGui().getPaneDraw().getChildren().remove(c);
+                if ( gui.getSimulationStatus() == 0 ) {
+                    universe.remove(planet);
+                    planet.getGui().getPaneDraw().getChildren().remove(planet);
+                    for (Circle c: planet.getTail()) {
+                        planet.getGui().getPaneDraw().getChildren().remove(c);
+                    }
                 }
             }
         });

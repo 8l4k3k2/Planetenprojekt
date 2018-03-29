@@ -35,7 +35,7 @@ public class Controller implements Initializable {
 
     private ObservableList scenariosToChose; //
     private ArrayList<SpaceObject> universe = new ArrayList<>();
-    Berechnungen startCalc = new Berechnungen(universe);
+    Berechnungen startCalc;
     Rectangle rectangleClipForPane;
     
 
@@ -45,10 +45,11 @@ public class Controller implements Initializable {
         rectangleClipForPane = new Rectangle(paneDraw.getPrefWidth(), paneDraw.getPrefHeight());
         
         int tailLength = 100;
+        double scaleFactor = 0.1;
         GuiElements gui = new GuiElements(anchorPane, paneDraw, paneControls,
-            panesSeparator, 0.1, slider_sim_speed, checkBox_drawTail, slider_tailLength, 
+            panesSeparator, scaleFactor, slider_sim_speed, checkBox_drawTail, slider_tailLength, 
             tailLength, choiceBox_scenario, rectangleClipForPane);
-
+        startCalc = new Berechnungen(universe, gui);
         
         gui.getSliderSimSpeed().setMin(0.00001);
         gui.getSliderSimSpeed().setMax(0.0001);
@@ -77,7 +78,6 @@ public class Controller implements Initializable {
 	//MyMouseEvents.paneMouseEvents(gui.getPaneDraw());
         
         anchorPane.widthProperty().addListener((ov, oldValue, newValue) -> {
-
             paneDraw.setPrefWidth(newValue.doubleValue() - paneDraw.getLayoutX() - paneControls.getPrefWidth());
             paneControls.setLayoutX(newValue.doubleValue() - paneControls.getPrefWidth());
             panesSeparator.setLayoutX(newValue.doubleValue() - paneControls.getPrefWidth());
@@ -90,7 +90,6 @@ public class Controller implements Initializable {
             Draw.draw(gui, universe);
         });
         anchorPane.heightProperty().addListener((ov, oldValue, newValue) -> {
-
             paneDraw.setPrefHeight(newValue.doubleValue() - paneDraw.getLayoutY());
             paneControls.setPrefHeight(newValue.doubleValue() - paneDraw.getLayoutY());
             panesSeparator.setPrefHeight(newValue.doubleValue() - paneDraw.getLayoutY());
@@ -105,14 +104,16 @@ public class Controller implements Initializable {
 
         scenariosToChose = FXCollections.observableArrayList();
 	scenariosToChose.add(" ");
-        scenariosToChose.add("Sonne, Erde, Mond");
-        scenariosToChose.add("Vier Planeten");
-        scenariosToChose.add("Vier Planeten 2");
+        scenariosToChose.add("Drei Planeten");
+        scenariosToChose.add("Testfall: Erde um Sonne");
+        scenariosToChose.add("Vier Planeten #1");
+        scenariosToChose.add("Vier Planeten #2");
 	choiceBox_scenario.setItems(scenariosToChose);
 	choiceBox_scenario.setValue(scenariosToChose.get(0));
 	choiceBox_scenario.setOnAction((event) -> {
+            startCalc.stop();
             universe.clear();
-            if ( choiceBox_scenario.getValue() == "Sonne, Erde, Mond" ) {
+            if ( choiceBox_scenario.getValue() == "Drei Planeten" ) {
                 SpaceObject sun = new SpaceObject("sun", 0, 0, 797000000000000000.4, new Vector(), 15, new int[]{0,0,255}, gui);
                 universe.add(sun);
                 Vector nF = new Vector(-5,2,350);
@@ -122,7 +123,32 @@ public class Controller implements Initializable {
                 SpaceObject moon = new SpaceObject("moon", 350, 550, 7970000000000.4, nF2, 3, new int[]{0,0,255}, gui);
                 universe.add(moon);
                 Draw.draw(gui, universe);
-            } else if ( choiceBox_scenario.getValue() == "Vier Planeten" ) {
+            } else if ( choiceBox_scenario.getValue() == "Testfall: Erde um Sonne" ) {
+                /*
+                This case simulates real conditions - including sun and earth -
+                using values for mass and distance as in reality:
+                mass, sun: 1.984 * 10^30 kg
+                mass, earth: 5.974 * 10^24 kg
+                farthest distance between sun and earth: 152 * 10^9 m
+                
+                Zu erwarten: Die Umlaufbahn der Erde erscheint wie ein aus dem Mittelpunkt
+                verschobener Kreis. Diese Umlaufbahn weicht nur sehr leicht von einem
+                exakten Kreis ab.
+                Ergebnis: Mit dem bloßen Auge ist eine Kreisbahn erkennbar. Es ist aber vermutlich
+                eine Ellipse.
+                */
+                SpaceObject sun = new SpaceObject("sun", 0, 0, 1.984 * Math.pow(10,30), new Vector(), 15, new int[]{0,0,255}, gui);
+                universe.add(sun);
+                Vector nF = new Vector(0, -1, 30000.0);
+                SpaceObject earth = new SpaceObject("earth", 152.0 * Math.pow(10,9), 0, 5.974 * Math.pow(10,24), nF, 7, new int[]{0,255,0}, gui);
+                universe.add(earth);
+                
+                // Adjust scale factor and max. simulation speed
+                gui.setScaleFactor(1.0 / Math.pow(10, 9));
+                gui.getSliderSimSpeed().setMax(1.0);
+                
+                Draw.draw(gui, universe);
+            } else if ( choiceBox_scenario.getValue() == "Vier Planeten #1" ) {
                 SpaceObject sun = new SpaceObject("sun", 0, 0, 797000000000000000.4, new Vector(), 15, new int[]{0,0,255}, gui);
                 universe.add(sun);
                 Vector nF = new Vector(-5,2,110);
@@ -135,7 +161,7 @@ public class Controller implements Initializable {
                 SpaceObject p2 = new SpaceObject("moon", -850, 650, 7970000000000.4, nF3, 3, new int[]{0,0,0}, gui);
                 universe.add(p2);
                 Draw.draw(gui, universe);
-            } else if ( choiceBox_scenario.getValue() == "Vier Planeten 2" ) {    
+            } else if ( choiceBox_scenario.getValue() == "Vier Planeten #2" ) {    
                 Vector star1F = new Vector(0,2,60); //81.5
                 SpaceObject star1 = new SpaceObject("star1", -2000, 0, 797000000000000000.4, star1F, 15, new int[]{0,0,255}, gui);
                 universe.add(star1);

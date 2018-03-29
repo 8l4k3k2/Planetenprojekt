@@ -12,7 +12,7 @@ public class Draw {
         gui.getPaneDraw().getChildren().clear();
         for (SpaceObject planet: universe){
             mg.makeDraggable(planet);
-            MyMouseEvents.nodeMouseEvents(planet, universe);
+            MyMouseEvents.nodeMouseEvents(planet, universe, gui.getPaneDraw(), gui);
             planet.setCircleCoordinates();
             gui.getPaneDraw().getChildren().add(planet);
         }
@@ -23,7 +23,7 @@ public class Draw {
             }
         }
 
-        gui.getPaneDraw().setClip(gui.getRectangleClipForPane());;
+        //gui.getPaneDraw().setClip(gui.getRectangleClipForPane());;
         //System.out.println(gui.getRectangleClipForPane().getWidth() + " " + gui.getRectangleClipForPane().getHeight());
         
         AnimationTimer animation = new AnimationTimer() {
