@@ -7,6 +7,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
+import org.codefx.libfx.listener.handle.ListenerHandle;
 
 public class GuiElements {
 
@@ -24,6 +25,8 @@ public class GuiElements {
     private ChoiceBox choiceBox_scenario;
     private Rectangle rectangleClipForPane;
     private int simulationStatus;
+    private ListenerHandle listenerHandleCenterX;
+    private ListenerHandle listenerHandleCenterY;
     
     public GuiElements (AnchorPane anchorPane, Pane paneDraw, Pane paneControls, 
             Separator panesSeparator, double scaleFactor,
@@ -99,5 +102,21 @@ public class GuiElements {
     
     public Rectangle getRectangleClipForPane() {
         return this.rectangleClipForPane;
+    }
+    
+    public void setListenerHandleCenterX(ListenerHandle lh) {
+        this.listenerHandleCenterX = lh;
+    }
+    
+    public ListenerHandle getListenerHandleCenterX() {
+        return this.listenerHandleCenterX;
+    }
+
+    public void setListenerHandleCenterY(ListenerHandle lh) {
+        this.listenerHandleCenterY = lh;
+    }
+    
+    public ListenerHandle getListenerHandleCenterY() {
+        return this.listenerHandleCenterY;
     }
 }

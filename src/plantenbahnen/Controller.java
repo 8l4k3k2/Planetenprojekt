@@ -51,9 +51,6 @@ public class Controller implements Initializable {
             tailLength, choiceBox_scenario, rectangleClipForPane);
         startCalc = new Berechnungen(universe, gui);
         
-        gui.getSliderSimSpeed().setMin(0.00001);
-        gui.getSliderSimSpeed().setMax(0.0001);
-        gui.getSliderSimSpeed().setValue(0.00002);
         startCalc.setDeltaTime(gui.getSliderSimSpeed().getValue());
         gui.getSliderSimSpeed().valueProperty().addListener(new ChangeListener() {
             @Override
@@ -61,7 +58,7 @@ public class Controller implements Initializable {
                 startCalc.setDeltaTime(gui.getSliderSimSpeed().getValue());
             }
         });
-
+        
         gui.getSliderTailLength().setMin(100.0);
         gui.getSliderTailLength().setMax(10000000.0);
         gui.getSliderTailLength().setValue(100.0);
@@ -113,6 +110,10 @@ public class Controller implements Initializable {
 	choiceBox_scenario.setOnAction((event) -> {
             startCalc.stop();
             universe.clear();
+            gui.setScaleFactor(0.1);
+            gui.getSliderSimSpeed().setMin(0.00001);
+            gui.getSliderSimSpeed().setMax(0.0001);
+            gui.getSliderSimSpeed().setValue(0.00002);
             if ( choiceBox_scenario.getValue() == "Drei Planeten" ) {
                 SpaceObject sun = new SpaceObject("sun", 0, 0, 797000000000000000.4, new Vector(), 15, new int[]{0,0,255}, gui);
                 universe.add(sun);
@@ -143,10 +144,11 @@ public class Controller implements Initializable {
                 SpaceObject earth = new SpaceObject("earth", 152.0 * Math.pow(10,9), 0, 5.974 * Math.pow(10,24), nF, 7, new int[]{0,255,0}, gui);
                 universe.add(earth);
                 
-                // Adjust scale factor and max. simulation speed
+                // Adjust scale factor and simulation speed settings
                 gui.setScaleFactor(1.0 / Math.pow(10, 9));
-                gui.getSliderSimSpeed().setMax(1.0);
-                
+                gui.getSliderSimSpeed().setMin(0.01);
+                gui.getSliderSimSpeed().setMax(10.0);
+                gui.getSliderSimSpeed().setValue(0.5);
                 Draw.draw(gui, universe);
             } else if ( choiceBox_scenario.getValue() == "Vier Planeten #1" ) {
                 SpaceObject sun = new SpaceObject("sun", 0, 0, 797000000000000000.4, new Vector(), 15, new int[]{0,0,255}, gui);

@@ -1,6 +1,9 @@
 package plantenbahnen;
 
 import java.util.ArrayList;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.ContextMenu;
@@ -9,6 +12,8 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
+import org.codefx.libfx.listener.handle.ListenerHandle;
+import org.codefx.libfx.listener.handle.ListenerHandles;
 
 public class MyMouseEvents {
 
@@ -27,18 +32,71 @@ public class MyMouseEvents {
             public void handle(ActionEvent event) {
                 System.out.println("Focusing on " + planet.getName());
                 
+                /* 
+                If the focus of any planet is requested we need to first remove the
+                focus - if there is any - from another planet. The focus listener
+                is managed by means of handles stored in the GuiElements class.
+                */
+                ListenerHandle listenerHandleCenterX = gui.getListenerHandleCenterX();
+                ListenerHandle listenerHandleCenterY = gui.getListenerHandleCenterY();
+                if ( listenerHandleCenterX != null ) {
+                    listenerHandleCenterX.detach();
+                }
+                if ( listenerHandleCenterY != null ) {
+                    listenerHandleCenterY.detach();
+                }
+                
+                DoubleProperty property = planet.centerXProperty();
+                ChangeListener listener= new ChangeListener<Number>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Number> o, Number oldValue, Number newValue) {
+                        pane.setLayoutX(pane.getLayoutX() - (newValue.doubleValue() - oldValue.doubleValue()));
+                        gui.getRectangleClipForPane().setLayoutX(gui.getRectangleClipForPane().getLayoutX() +
+                            (newValue.doubleValue() - oldValue.doubleValue()));
+                    }
+                };
+                listenerHandleCenterX = ListenerHandles.createAttached(property, listener);
+                gui.setListenerHandleCenterX(listenerHandleCenterX);
+                
+                property = planet.centerYProperty();
+                listener= new ChangeListener<Number>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Number> o, Number oldValue, Number newValue) {
+                        pane.setLayoutY(pane.getLayoutY() - (newValue.doubleValue() - oldValue.doubleValue()));
+                        gui.getRectangleClipForPane().setLayoutY(gui.getRectangleClipForPane().getLayoutY() +
+                            (newValue.doubleValue() - oldValue.doubleValue()));
+                    }
+                };
+                listenerHandleCenterY = ListenerHandles.createAttached(property, listener);
+                gui.setListenerHandleCenterY(listenerHandleCenterY);
 
-                //pane.setLayoutX(planet.getGui().getPaneHalfWidth() - planet.getCenterX());
-                //pane.setLayoutY(planet.getGui().getPaneHalfHeight() - planet.getCenterY());
-                
+                /*
+                THIS IS THE OLD VERSION WITHOUT THE HANDLES. IT'S USELESS BECAUSE
+                THE FOCUS WASN'T REMOVED FROM THE FORMER PLANET.
+                planet.centerXProperty().addListener(new ChangeListener<Number>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Number> o, Number oldValue, Number newValue) {
+                        pane.setLayoutX(pane.getLayoutX() - (newValue.doubleValue() - oldValue.doubleValue()));
+                        gui.getRectangleClipForPane().setLayoutX(gui.getRectangleClipForPane().getLayoutX() +
+                            (newValue.doubleValue() - oldValue.doubleValue()));
+                    }
+                });
+                // With lambda expressions
                 planet.centerXProperty().addListener((ov, oldValue, newValue) -> {
-                    pane.setLayoutX(planet.getGui().getPaneHalfWidth() - newValue.doubleValue());
+                    //System.out.println(planet.getCenterX() + "  " + pane.getLayoutX());
+                    pane.setLayoutX(pane.getLayoutX() - (newValue.doubleValue() - oldValue.doubleValue()));
+                    gui.getRectangleClipForPane().setLayoutX(gui.getRectangleClipForPane().getLayoutX() +
+                        (newValue.doubleValue() - oldValue.doubleValue()));
+                    //System.out.println((newValue.doubleValue() - oldValue.doubleValue()) + "  " + pane.getLayoutX() + "  " + gui.getRectangleClipForPane().getLayoutX());
+                    
                 });
+                
                 planet.centerYProperty().addListener((ov, oldValue, newValue) -> {
-                    pane.setLayoutY(planet.getGui().getPaneHalfHeight() - newValue.doubleValue());
+                    pane.setLayoutY(pane.getLayoutY() - (newValue.doubleValue() - oldValue.doubleValue()));
+                    gui.getRectangleClipForPane().setLayoutY(gui.getRectangleClipForPane().getLayoutY() +
+                        (newValue.doubleValue() - oldValue.doubleValue()));
                 });
-                
-                
+                */
             }
         });
 
