@@ -28,13 +28,16 @@ public class SpaceObject extends Circle {
     private int counter=0;
 
     private GuiElements gui;
-
+    private ArrayList<SpaceObject> universe;
+    private boolean hasFocus;
     private final Object lock = new Object();
     
     SpaceObject(String name, double x, double y, double mass, Vector velocityVector, 
-        int radius, int[] colour, GuiElements gui) {
+        int radius, int[] colour, GuiElements gui, ArrayList<SpaceObject> universe) {
 
         this.gui = gui;
+        this.universe = universe;
+        this.hasFocus = false;
 
         this.x = x;
         this.y = y;
@@ -65,6 +68,18 @@ public class SpaceObject extends Circle {
 
     public GuiElements getGui() {
         return this.gui;
+    }
+    
+    public ArrayList<SpaceObject> getUniverse() {
+        return this.universe;
+    }
+    
+    public void setHasFocus(boolean hf) {
+        this.hasFocus = hf;
+    }
+    
+    public boolean getHasFocus() {
+        return this.hasFocus;
     }
     
     public void setVelocityVector(Vector velocityVector) {
@@ -220,6 +235,11 @@ public class SpaceObject extends Circle {
     public void setCircleCoordinates() {
         this.setCenterX(this.x * this.gui.getScaleFactor() + this.gui.getPaneHalfWidth());
         this.setCenterY(this.y * this.gui.getScaleFactor() + this.gui.getPaneHalfHeight());
+    }
+
+    public void setCircleCoordinates(double x, double y) {
+        this.setCenterX(x);
+        this.setCenterY(y);
     }
 
     public void drawArrows(){

@@ -30,7 +30,7 @@ public class MyMouseEvents {
         itemFocus.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("Focusing on " + planet.getName());
+                //System.out.println("Focusing on " + planet.getName());
                 
                 /* 
                 If the focus of any planet is requested we need to first remove the
@@ -47,14 +47,32 @@ public class MyMouseEvents {
                 }
                 
                 DoubleProperty property = planet.centerXProperty();
+                double diffToCenterX = 0.0;
+                if ( pane.getLayoutX() < 0.0 ) {
+                    diffToCenterX = Math.abs(pane.getLayoutX()) + gui.getPaneHalfWidth() - planet.getCenterX();
+                } else {
+                    diffToCenterX = pane.getLayoutX() * -1.0 + gui.getPaneHalfWidth() - planet.getCenterX();
+                }
+                //System.out.println(pane.getLayoutX() + gui.getPaneHalfWidth() +"  " + planet.getCenterX());
+                //double diffToCenterY = Math.abs(pane.getLayoutY()) + gui.getPaneHalfHeight() - planet.getCenterY();
+                double diffToCenterY = 0.0;
+                if ( pane.getLayoutY() < 0.0 ) {
+                    diffToCenterY = Math.abs(pane.getLayoutY()) + gui.getPaneHalfHeight() - planet.getCenterY();
+                } else {
+                    diffToCenterY = pane.getLayoutY() * -1.0 + gui.getPaneHalfHeight() - planet.getCenterY();
+                }
+                
                 ChangeListener listener= new ChangeListener<Number>() {
                     @Override
                     public void changed(ObservableValue<? extends Number> o, Number oldValue, Number newValue) {
+                        //System.out.println(newValue.doubleValue()-oldValue.doubleValue());
                         pane.setLayoutX(pane.getLayoutX() - (newValue.doubleValue() - oldValue.doubleValue()));
                         gui.getRectangleClipForPane().setLayoutX(gui.getRectangleClipForPane().getLayoutX() +
                             (newValue.doubleValue() - oldValue.doubleValue()));
                     }
                 };
+                pane.setLayoutX(pane.getLayoutX() + diffToCenterX);
+                gui.getRectangleClipForPane().setLayoutX(gui.getRectangleClipForPane().getLayoutX() - diffToCenterX);
                 listenerHandleCenterX = ListenerHandles.createAttached(property, listener);
                 gui.setListenerHandleCenterX(listenerHandleCenterX);
                 
@@ -67,36 +85,16 @@ public class MyMouseEvents {
                             (newValue.doubleValue() - oldValue.doubleValue()));
                     }
                 };
+                pane.setLayoutY(pane.getLayoutY() + diffToCenterY);
+                gui.getRectangleClipForPane().setLayoutY(gui.getRectangleClipForPane().getLayoutY() - diffToCenterY);
                 listenerHandleCenterY = ListenerHandles.createAttached(property, listener);
                 gui.setListenerHandleCenterY(listenerHandleCenterY);
 
-                /*
-                THIS IS THE OLD VERSION WITHOUT THE HANDLES. IT'S USELESS BECAUSE
-                THE FOCUS WASN'T REMOVED FROM THE FORMER PLANET.
-                planet.centerXProperty().addListener(new ChangeListener<Number>() {
-                    @Override
-                    public void changed(ObservableValue<? extends Number> o, Number oldValue, Number newValue) {
-                        pane.setLayoutX(pane.getLayoutX() - (newValue.doubleValue() - oldValue.doubleValue()));
-                        gui.getRectangleClipForPane().setLayoutX(gui.getRectangleClipForPane().getLayoutX() +
-                            (newValue.doubleValue() - oldValue.doubleValue()));
-                    }
-                });
-                // With lambda expressions
-                planet.centerXProperty().addListener((ov, oldValue, newValue) -> {
-                    //System.out.println(planet.getCenterX() + "  " + pane.getLayoutX());
-                    pane.setLayoutX(pane.getLayoutX() - (newValue.doubleValue() - oldValue.doubleValue()));
-                    gui.getRectangleClipForPane().setLayoutX(gui.getRectangleClipForPane().getLayoutX() +
-                        (newValue.doubleValue() - oldValue.doubleValue()));
-                    //System.out.println((newValue.doubleValue() - oldValue.doubleValue()) + "  " + pane.getLayoutX() + "  " + gui.getRectangleClipForPane().getLayoutX());
-                    
-                });
-                
-                planet.centerYProperty().addListener((ov, oldValue, newValue) -> {
-                    pane.setLayoutY(pane.getLayoutY() - (newValue.doubleValue() - oldValue.doubleValue()));
-                    gui.getRectangleClipForPane().setLayoutY(gui.getRectangleClipForPane().getLayoutY() +
-                        (newValue.doubleValue() - oldValue.doubleValue()));
-                });
-                */
+                // First, remove focus from all planets. Then, set this focus for this planet.
+                for (int i=0; i<planet.getUniverse().size(); i++) {
+                    planet.getUniverse().get(i).setHasFocus(false);
+                }
+                planet.setHasFocus(true);
             }
         });
 
