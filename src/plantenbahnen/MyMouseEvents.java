@@ -105,7 +105,7 @@ public class MyMouseEvents {
                 if ( gui.getSimulationStatus() == 0 ) {
                     universe.remove(planet);
                     planet.getGui().getPaneDraw().getChildren().remove(planet);
-                    for (Circle c: planet.getTail()) {
+                    for (Circle c: planet.getTrajectory()) {
                         planet.getGui().getPaneDraw().getChildren().remove(c);
                     }
                 }

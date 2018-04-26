@@ -16,12 +16,12 @@ public class SpaceObject extends Circle {
     private Vector velocityVectorNew;
     private String name;
 
-    private boolean drawTail;
-    private int tailSize;
-    private ArrayList<Circle> tail;
+    private boolean drawTrajectory;
+    private int trajectorySize;
+    private ArrayList<Circle> trajectory;
     private ArrayList<Double[]> pastCoordinates;
-    private int tailIndex;
-    private int tailIncrement;
+    private int trajectoryIndex;
+    private int trajectoryIncrement;
 
     //arrow
     private Line line = new Line();
@@ -51,17 +51,17 @@ public class SpaceObject extends Circle {
         this.setRadius(radius);
         this.setFill(Color.rgb(colour[0],colour[1],colour[2]));
 
-        this.drawTail = false;
-        this.tail = new ArrayList<>();
-        //this.tailSize = tailSize;
-        this.tailIndex = 0;
-        this.tailIncrement = 10000;
+        this.drawTrajectory = false;
+        this.trajectory = new ArrayList<>();
+        //this.trajectorySize = trajectorySize;
+        this.trajectoryIndex = 0;
+        this.trajectoryIncrement = 10000;
 
         Platform.runLater(() -> this.gui.getPaneDraw().getChildren().add(this.line));
         /*
-        this.tail = new Line[this.tailSize];
-        for (int i=0; i<this.tailSize; i++){
-            this.tail[i] = new Line();
+        this.trajectory = new Line[this.trajectorySize];
+        for (int i=0; i<this.trajectorySize; i++){
+            this.trajectory[i] = new Line();
         }
         */
     }
@@ -90,20 +90,20 @@ public class SpaceObject extends Circle {
         return this.velocityVector;
     }
 
-    public void setTailSize(int tailSize) {
-        this.tailSize = tailSize;
+    public void setTrajectorySize(int trajectorySize) {
+        this.trajectorySize = trajectorySize;
     }
 
-    public int getTailSize() {
-        return this.tailSize;
+    public int getTrajectorySize() {
+        return this.trajectorySize;
     }
     
-    public void setDrawTail(boolean drawTail) {
-        this.drawTail = drawTail;
+    public void setDrawTrajectory(boolean drawTrajectory) {
+        this.drawTrajectory = drawTrajectory;
     }
     
-    public boolean getDrawTail() {
-        return this.drawTail;
+    public boolean getDrawTrajectory() {
+        return this.drawTrajectory;
     }
     
     public void setColour(int[] colour) {
@@ -183,33 +183,33 @@ public class SpaceObject extends Circle {
         */
 
         /*
-        if ( this.tailIndex == 0 ) {
-            addLineToTail();
-        } else if ( this.tailIndex == this.tailIncrement ) {
-            addLineToTail();
-            this.tailIndex = 1;
+        if ( this.trajectoryIndex == 0 ) {
+            addLineToTrajectory();
+        } else if ( this.trajectoryIndex == this.trajectoryIncrement ) {
+            addLineToTrajectory();
+            this.trajectoryIndex = 1;
         }
-        this.tailIndex++;
+        this.trajectoryIndex++;
         */
         //addToPastCoordinates();
 
-        this.tailIndex++;
-        if ( this.drawTail && this.tailIndex % this.tailIncrement == 0 ) {
+        this.trajectoryIndex++;
+        if ( this.drawTrajectory && this.trajectoryIndex % this.trajectoryIncrement == 0 ) {
             Circle c = new Circle();
             c.setCenterX(this.x * this.gui.getScaleFactor() + this.gui.getPaneHalfWidth());
             c.setCenterY(this.y * this.gui.getScaleFactor() + this.gui.getPaneHalfHeight());
             c.setRadius(this.getRadius()/4.0);
             c.setFill(this.getFill());
-            this.tail.add(0, c);
+            this.trajectory.add(0, c);
             // We need Platform.runlater() in order to modify the JavaFX GUI thread
             Platform.runLater(() -> this.gui.getPaneDraw().getChildren().add(c));
-            while ( this.tail.size() > (int) this.gui.getSliderTailLength().getValue() ) {
+            while ( this.trajectory.size() > (int) this.gui.getSliderTrajectoryLength().getValue() ) {
                 // some circle objects remain on the pane, so, make them at least
                 // fully translucent
-                this.tail.get(this.tail.size()-1).setOpacity(0.0);
-                // delete from pane and tail
-                Platform.runLater(() -> this.gui.getPaneDraw().getChildren().remove(this.tail.get(this.tail.size()-1)));
-                this.tail.remove(this.tail.size()-1);
+                this.trajectory.get(this.trajectory.size()-1).setOpacity(0.0);
+                // delete from pane and trajectory
+                Platform.runLater(() -> this.gui.getPaneDraw().getChildren().remove(this.trajectory.get(this.trajectory.size()-1)));
+                this.trajectory.remove(this.trajectory.size()-1);
             }
         }
         
@@ -219,8 +219,8 @@ public class SpaceObject extends Circle {
     }
 
     
-    public ArrayList<Circle> getTail() {
-        return this.tail;
+    public ArrayList<Circle> getTrajectory() {
+        return this.trajectory;
     }
     
     public double getlLength(ArrayList<Double[]> l, Double[] newest) {

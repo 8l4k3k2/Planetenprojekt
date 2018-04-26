@@ -19,9 +19,9 @@ public class GuiElements {
     private double paneHalfWidth;
     private double paneHalfHeight;
     private Slider slider_sim_speed;
-    private CheckBox checkBox_drawTail;
-    private Slider slider_tailLength;
-    private int tailLength;
+    private CheckBox checkBox_drawTrajectory;
+    private Slider slider_trajectoryLength;
+    private int trajectoryLength;
     private ChoiceBox choiceBox_scenario;
     private Rectangle rectangleClipForPane;
     private int simulationStatus;
@@ -30,8 +30,8 @@ public class GuiElements {
     
     public GuiElements (AnchorPane anchorPane, Pane paneDraw, Pane paneControls, 
             Separator panesSeparator, double scaleFactor,
-            Slider slider_sim_speed, CheckBox checkBox_drawTail, Slider slider_tailLength, 
-            int tailLength, ChoiceBox choiceBox_scenario, Rectangle rectangleClipForPane) {
+            Slider slider_sim_speed, CheckBox checkBox_drawTrajectory, Slider slider_trajectoryLength, 
+            int trajectoryLength, ChoiceBox choiceBox_scenario, Rectangle rectangleClipForPane) {
         this.anchorPane = anchorPane;
         this.paneDraw = paneDraw;
         this.paneControls = paneControls;
@@ -40,9 +40,9 @@ public class GuiElements {
         this.paneHalfWidth = paneDraw.getPrefWidth() / 2.0;
         this.paneHalfHeight = paneDraw.getPrefHeight() / 2.0;
         this.slider_sim_speed = slider_sim_speed;
-        this.checkBox_drawTail = checkBox_drawTail;
-        this.slider_tailLength = slider_tailLength;
-        this.tailLength = tailLength;
+        this.checkBox_drawTrajectory = checkBox_drawTrajectory;
+        this.slider_trajectoryLength = slider_trajectoryLength;
+        this.trajectoryLength = trajectoryLength;
         this.choiceBox_scenario = choiceBox_scenario;
         this.rectangleClipForPane = rectangleClipForPane;
         this.simulationStatus = 0;
@@ -84,20 +84,20 @@ public class GuiElements {
         this.paneHalfHeight = this.paneDraw.getPrefHeight() / 2.0;
     }
     
-    public int getTailLength() {
-        return this.tailLength;
+    public int getTrajectoryLength() {
+        return this.trajectoryLength;
     }
     
     public Slider getSliderSimSpeed() {
         return this.slider_sim_speed;
     }
 
-    public Slider getSliderTailLength() {
-        return this.slider_tailLength;
+    public Slider getSliderTrajectoryLength() {
+        return this.slider_trajectoryLength;
     }
     
-    public CheckBox getCheckBoxDrawTail() {
-        return this.checkBox_drawTail;
+    public CheckBox getCheckBoxDrawTrajectory() {
+        return this.checkBox_drawTrajectory;
     }
     
     public Rectangle getRectangleClipForPane() {

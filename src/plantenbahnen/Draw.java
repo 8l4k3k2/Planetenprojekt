@@ -17,9 +17,9 @@ public class Draw {
             gui.getPaneDraw().getChildren().add(planet);
         }
 
-        if ( gui.getCheckBoxDrawTail().isSelected() ) {
+        if ( gui.getCheckBoxDrawTrajectory().isSelected() ) {
             for (SpaceObject planet: universe){
-                planet.setDrawTail(true);
+                planet.setDrawTrajectory(true);
             }
         }
 

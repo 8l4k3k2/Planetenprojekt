@@ -35,7 +35,7 @@ public class Berechnungen implements Runnable{
             }
             
             for (SpaceObject sO: this.universe) {
-                //sets x=x1,y=y1 and adds Line to tail
+                //sets x=x1,y=y1 and adds Line to trajectory
                 sO.setNewCoordinates();
             }
         }

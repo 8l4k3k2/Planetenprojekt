@@ -29,8 +29,8 @@ public class Controller implements Initializable {
     @FXML private Separator panesSeparator;
     @FXML private Pane paneControls;
     @FXML private Slider slider_sim_speed;
-    @FXML private CheckBox checkBox_drawTail;
-    @FXML private Slider slider_tailLength;
+    @FXML private CheckBox checkBox_drawTrajectory;
+    @FXML private Slider slider_trajectoryLength;
     @FXML private ChoiceBox choiceBox_scenario;
 
     private ObservableList scenariosToChose; //
@@ -44,11 +44,11 @@ public class Controller implements Initializable {
 
         rectangleClipForPane = new Rectangle(paneDraw.getPrefWidth(), paneDraw.getPrefHeight());
         
-        int tailLength = 100;
+        int trajectoryLength = 100;
         double scaleFactor = 0.1;
         gui = new GuiElements(anchorPane, paneDraw, paneControls,
-            panesSeparator, scaleFactor, slider_sim_speed, checkBox_drawTail, slider_tailLength, 
-            tailLength, choiceBox_scenario, rectangleClipForPane);
+            panesSeparator, scaleFactor, slider_sim_speed, checkBox_drawTrajectory, slider_trajectoryLength, 
+            trajectoryLength, choiceBox_scenario, rectangleClipForPane);
         startCalc = new Berechnungen(universe, gui);
         
         startCalc.setDeltaTime(gui.getSliderSimSpeed().getValue());
@@ -59,14 +59,14 @@ public class Controller implements Initializable {
             }
         });
         
-        gui.getSliderTailLength().setMin(100.0);
-        gui.getSliderTailLength().setMax(10000000.0);
-        gui.getSliderTailLength().setValue(100.0);
-        gui.getSliderTailLength().valueProperty().addListener(new ChangeListener() {
+        gui.getSliderTrajectoryLength().setMin(100.0);
+        gui.getSliderTrajectoryLength().setMax(10000.0); //10000000.0
+        gui.getSliderTrajectoryLength().setValue(100.0);
+        gui.getSliderTrajectoryLength().valueProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue arg0, Object arg1, Object arg2) {
                 for (SpaceObject so : universe) {
-                    so.setTailSize((int)gui.getSliderTailLength().getValue());
+                    so.setTrajectorySize((int)gui.getSliderTrajectoryLength().getValue());
                 }
             }
         });
@@ -269,10 +269,10 @@ public class Controller implements Initializable {
         }
     }
 
-    @FXML private void checkBox_drawTail(ActionEvent event) throws InterruptedException {
-        if ( checkBox_drawTail.isSelected() ) {
+    @FXML private void checkBox_drawTrajectory(ActionEvent event) throws InterruptedException {
+        if ( checkBox_drawTrajectory.isSelected() ) {
             for (SpaceObject planet: universe){
-                planet.setDrawTail(true);
+                planet.setDrawTrajectory(true);
             }
         } else { // remove the trajectories
             boolean simulationWasRunning = false;
@@ -281,9 +281,9 @@ public class Controller implements Initializable {
                 startCalc.stop();
             }
             for (SpaceObject planet: universe){
-                planet.setDrawTail(false);
-                if ( planet.getTail().size() > 0 ) {
-                    for (Circle c: planet.getTail()) {
+                planet.setDrawTrajectory(false);
+                if ( planet.getTrajectory().size() > 0 ) {
+                    for (Circle c: planet.getTrajectory()) {
                         paneDraw.getChildren().remove(c);
                     }
                 }
