@@ -24,7 +24,8 @@ public class MyMouseEvents {
 
         // Define items of the context menu
         MenuItem itemFocus = new MenuItem("Set focus on this space object");
-        MenuItem itemDelete = new MenuItem("Delete this space object");
+        MenuItem itemDeleteFocus = new MenuItem("Remove focus from this space object");
+        MenuItem itemDeleteSpaceObject = new MenuItem("Delete this space object");
 
         // Define an event handler for an item
         itemFocus.setOnAction(new EventHandler<ActionEvent>() {
@@ -37,6 +38,7 @@ public class MyMouseEvents {
                 focus - if there is any - from another planet. The focus listener
                 is managed by means of handles stored in the GuiElements class.
                 */
+                
                 ListenerHandle listenerHandleCenterX = gui.getListenerHandleCenterX();
                 ListenerHandle listenerHandleCenterY = gui.getListenerHandleCenterY();
                 if ( listenerHandleCenterX != null ) {
@@ -89,17 +91,37 @@ public class MyMouseEvents {
                 gui.getRectangleClipForPane().setLayoutY(gui.getRectangleClipForPane().getLayoutY() - diffToCenterY);
                 listenerHandleCenterY = ListenerHandles.createAttached(property, listener);
                 gui.setListenerHandleCenterY(listenerHandleCenterY);
-
+                /*
+                planet.setVelocityVector(planet.getVelocityVector().multiply(0.1));
                 // First, remove focus from all planets. Then, set this focus for this planet.
                 for (int i=0; i<planet.getUniverse().size(); i++) {
                     planet.getUniverse().get(i).setHasFocus(false);
                 }
+                */
                 planet.setHasFocus(true);
             }
         });
 
         // Define an event handler for an item
-        itemDelete.setOnAction(new EventHandler<ActionEvent>() {
+        itemDeleteFocus.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if ( planet.getHasFocus() ) {
+                    ListenerHandle listenerHandleCenterX = gui.getListenerHandleCenterX();
+                    ListenerHandle listenerHandleCenterY = gui.getListenerHandleCenterY();
+                    if ( listenerHandleCenterX != null ) {
+                        listenerHandleCenterX.detach();
+                    }
+                    if ( listenerHandleCenterY != null ) {
+                        listenerHandleCenterY.detach();
+                    }
+                    planet.setHasFocus(false);
+                }
+            }
+        });
+                
+        // Define an event handler for an item
+        itemDeleteSpaceObject.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 if ( gui.getSimulationStatus() == 0 ) {
@@ -114,7 +136,8 @@ public class MyMouseEvents {
 
         // Add item(s) to the context menu
         contextMenuForNodes.getItems().add(itemFocus);
-        contextMenuForNodes.getItems().add(itemDelete);
+        contextMenuForNodes.getItems().add(itemDeleteFocus);
+        contextMenuForNodes.getItems().add(itemDeleteSpaceObject);
 
         // Define context menu for a node
         planet.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
