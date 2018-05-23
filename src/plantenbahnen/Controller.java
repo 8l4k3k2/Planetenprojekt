@@ -213,7 +213,6 @@ public class Controller implements Initializable {
                 simulationWasRunning = true;
                 startCalc.stop();
             }
-            //System.out.println("Simulation was running : " + simulationWasRunning);
 
             // Verschiebe das gesamte System so, dass der Massenschwerpunkt des
             // Systems in der Mitte ist. Berechnen des Massenschwerpunkts:

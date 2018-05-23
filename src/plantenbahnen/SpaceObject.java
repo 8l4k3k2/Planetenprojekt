@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import javafx.application.Platform;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
-
 
 public class SpaceObject extends Circle {
     
@@ -22,10 +20,6 @@ public class SpaceObject extends Circle {
     private ArrayList<Double[]> pastCoordinates;
     private int trajectoryIndex;
     private int trajectoryIncrement;
-
-    //arrow
-    private Line line = new Line();
-    private int counter=0;
 
     private GuiElements gui;
     private ArrayList<SpaceObject> universe;
@@ -53,17 +47,8 @@ public class SpaceObject extends Circle {
 
         this.drawTrajectory = false;
         this.trajectory = new ArrayList<>();
-        //this.trajectorySize = trajectorySize;
         this.trajectoryIndex = 0;
         this.trajectoryIncrement = 10000;
-
-        Platform.runLater(() -> this.gui.getPaneDraw().getChildren().add(this.line));
-        /*
-        this.trajectory = new Line[this.trajectorySize];
-        for (int i=0; i<this.trajectorySize; i++){
-            this.trajectory[i] = new Line();
-        }
-        */
     }
 
     public GuiElements getGui() {
@@ -173,26 +158,6 @@ public class SpaceObject extends Circle {
     }
 
     public void setNewCoordinates(){
-
-        /*
-        this.counter++;
-        if (this.counter>=10000){
-            drawArrows();
-            this.counter=0;
-        }
-        */
-
-        /*
-        if ( this.trajectoryIndex == 0 ) {
-            addLineToTrajectory();
-        } else if ( this.trajectoryIndex == this.trajectoryIncrement ) {
-            addLineToTrajectory();
-            this.trajectoryIndex = 1;
-        }
-        this.trajectoryIndex++;
-        */
-        //addToPastCoordinates();
-
         this.trajectoryIndex++;
         if ( this.drawTrajectory && this.trajectoryIndex % this.trajectoryIncrement == 0 ) {
             Circle c = new Circle();
@@ -240,18 +205,5 @@ public class SpaceObject extends Circle {
     public void setCircleCoordinates(double x, double y) {
         this.setCenterX(x);
         this.setCenterY(y);
-    }
-
-    public void drawArrows(){
-
-
-        //Platform.runLater(() -> this.gui.getPane().getChildren().remove(line));
-
-        this.line.setStartX(this.x * this.gui.getScaleFactor() + this.gui.getPaneHalfWidth());
-        this.line.setStartY(this.y * this.gui.getScaleFactor() + this.gui.getPaneHalfWidth());
-        this.line.setEndX((this.x+this.velocityVector.x()*5)*this.gui.getScaleFactor() + this.gui.getPaneHalfWidth());
-        this.line.setEndY((this.y+this.velocityVector.y()*5)*this.gui.getScaleFactor() + this.gui.getPaneHalfWidth());
-
-
     }
 }

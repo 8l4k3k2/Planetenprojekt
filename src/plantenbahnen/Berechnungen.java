@@ -46,7 +46,7 @@ public class Berechnungen implements Runnable{
         Vector totalAccelVector = new Vector();
         for (SpaceObject planet: this.universe){
             if ( planet != sO ){
-                //newtons Gravitationsgesetz
+                // Newtons Gravitationsgesetz
                 Vector zaehler = planet.getPositionVector().subtract(sO.getPositionVector());
                 double nenner = Math.pow(zaehler.norm(),3);
                 Vector temp = zaehler.divide(nenner);
@@ -54,21 +54,20 @@ public class Berechnungen implements Runnable{
                 totalAccelVector.addToSelf(temp);
             }
         }
-        //accellVector
+        // Beschleunigungsvektor (a_neu = m * G)
         totalAccelVector.multiplyToSelf(G);
 
-        //velocityVector
+        // Geschwindikeitsvektor (v_neu = a_neu * dt)
         totalAccelVector.multiplyToSelf(this.deltaTime);
 
-        //velocityVector(newton) and velocityVector from s0 added together
+        // Addiere den alten und den neuen Geschwindigkeitsvektor (temp = v_alt + v_neu)
         Vector temp = sO.getVelocityVector().add(totalAccelVector);
 
-        //set new velocityVector
+        // Überschreibe den alten durch den neuen Geschwindigkeitsvektor (v_alt = v_neu)
         sO.setVelocityVectorNew(temp);
-        //set new Coordinates
+        
+        // Setze die neuen Koordinaten (s = v * dt)
         sO.addPositionVectorToCoordinates(sO.getVelocityVectorNew().multiply(this.deltaTime));
-
-
     }
 
     void start(){
@@ -77,10 +76,6 @@ public class Berechnungen implements Runnable{
             t.start();
             gui.setSimulationStatus(1);
         }
-        /*if (t.getState() == TERMINATED) {
-            t = new Thread(this);
-            t.start();
-        }*/
     }
     
     void stop(){
