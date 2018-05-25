@@ -18,7 +18,7 @@ import javafx.scene.shape.Rectangle;
 import org.codefx.libfx.listener.handle.ListenerHandle;
 import org.codefx.libfx.listener.handle.ListenerHandles;
 
-public class MyMouseEvents {
+public class MouseEvents {
 
     public static void nodeMouseEvents(SpaceObject planet, ArrayList<SpaceObject> universe, Pane pane, GuiElements gui) {
         

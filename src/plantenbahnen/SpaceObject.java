@@ -201,15 +201,6 @@ public class SpaceObject extends Circle {
         return this.trajectory;
     }
     
-    public double getlLength(ArrayList<Double[]> l, Double[] newest) {
-        l.add(newest);
-        double length = 0;
-        for (int i=0; i<l.size()-1; i++) {
-            length += Math.sqrt(Math.pow((l.get(i)[0] - l.get(i+1)[0]), 2) + Math.pow((l.get(i)[1] - l.get(i+1)[1]), 2));
-        }
-        return length;
-    }
-
     public void setCircleCoordinates() {
         this.setCenterX(this.x * this.gui.getScaleFactor() + this.gui.getPaneHalfWidth());
         this.setCenterY(this.y * this.gui.getScaleFactor() + this.gui.getPaneHalfHeight());

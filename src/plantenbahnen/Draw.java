@@ -12,7 +12,7 @@ public class Draw {
         gui.getPaneDraw().getChildren().clear();
         for (SpaceObject planet: universe){
             mg.makeDraggable(planet);
-            MyMouseEvents.nodeMouseEvents(planet, universe, gui.getPaneDraw(), gui);
+            MouseEvents.nodeMouseEvents(planet, universe, gui.getPaneDraw(), gui);
             planet.setCircleCoordinates();
             gui.getPaneDraw().getChildren().add(planet);
         }
