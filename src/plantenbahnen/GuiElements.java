@@ -79,7 +79,7 @@ public class GuiElements {
     public double getPaneHalfHeight() {
         return paneHalfHeight;
     }
-
+    
     public void setPaneHalfHeight() {
         this.paneHalfHeight = this.paneDraw.getPrefHeight() / 2.0;
     }

@@ -26,24 +26,24 @@ public class Vector {
     }
     
     public double norm(Vector v){
-        return Math.sqrt(Math.pow((this.x-v.x()), 2) + Math.pow((this.y-v.y()), 2));
+        return Math.sqrt(Math.pow((this.x - v.getX()), 2) + Math.pow((this.y - v.getY()), 2));
     }
 
     public Vector add(Vector newV){
-        return new Vector(this.x+newV.x(), this.y+newV.y());
+        return new Vector(this.x + newV.getX(), this.y + newV.getY());
     }
 
     public void addToSelf(Vector newV){
-        this.x += newV.x();
-        this.y += newV.y();
+        this.x += newV.getX();
+        this.y += newV.getY();
     }
 
     public Vector subtract(Vector newV){
-        return new Vector(this.x-newV.x(), this.y-newV.y());
+        return new Vector(this.x - newV.getX(), this.y - newV.getY());
     }
 
     public Vector multiply(double value){
-        return new Vector(this.x*value, this.y*value);
+        return new Vector(this.x * value, this.y * value);
     }
 
     public void multiplyToSelf(double value){
@@ -55,11 +55,11 @@ public class Vector {
         return new Vector(this.x / value, this.y / value);
     }
 
-    public double x(){
+    public double getX(){
         return this.x;
     }
 
-    public double y(){
+    public double getY(){
         return this.y;
     }
 

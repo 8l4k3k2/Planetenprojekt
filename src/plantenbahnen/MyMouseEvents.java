@@ -1,5 +1,6 @@
 package plantenbahnen;
 
+import static com.sun.javafx.util.Utils.clamp;
 import java.util.ArrayList;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.value.ChangeListener;
@@ -10,8 +11,10 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import org.codefx.libfx.listener.handle.ListenerHandle;
 import org.codefx.libfx.listener.handle.ListenerHandles;
 
@@ -55,8 +58,6 @@ public class MyMouseEvents {
                 } else {
                     diffToCenterX = pane.getLayoutX() * -1.0 + gui.getPaneHalfWidth() - planet.getCenterX();
                 }
-                //System.out.println(pane.getLayoutX() + gui.getPaneHalfWidth() +"  " + planet.getCenterX());
-                //double diffToCenterY = Math.abs(pane.getLayoutY()) + gui.getPaneHalfHeight() - planet.getCenterY();
                 double diffToCenterY = 0.0;
                 if ( pane.getLayoutY() < 0.0 ) {
                     diffToCenterY = Math.abs(pane.getLayoutY()) + gui.getPaneHalfHeight() - planet.getCenterY();
@@ -152,34 +153,12 @@ public class MyMouseEvents {
         });
     } // nodeMouseEvents
 
-    public static void paneMouseEvents(Pane pane) {
-
-        DragContext sceneDragContext = new DragContext();
-
-        pane.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                sceneDragContext.mouseAnchorX = event.getSceneX();
-                sceneDragContext.mouseAnchorY = event.getSceneY();
-                sceneDragContext.translateAnchorX = pane.getTranslateX();
-                sceneDragContext.translateAnchorY = pane.getTranslateY();
-            }
-        });
-
-        pane.addEventHandler(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                if (event.getButton() == MouseButton.PRIMARY) {
-                    pane.setTranslateX(sceneDragContext.translateAnchorX + event.getSceneX() - sceneDragContext.mouseAnchorX);
-                    pane.setTranslateY(sceneDragContext.translateAnchorY + event.getSceneY() - sceneDragContext.mouseAnchorY);
-                }
-                event.consume();
-            }
-        });
-
-        /*
+    public static void paneMouseEvents(Pane pane, Rectangle clipForPane) {
+        
         // Zoom in and out focusing on the point where the mouse is
+        // ATTENTION: THIS METHOD IS NOT FULLE FUNCTIONAL
         pane.setOnScroll(new EventHandler<ScrollEvent>() {
+            
             @Override
             public void handle(ScrollEvent event) {
                 final double delta = 1.2;
@@ -187,7 +166,7 @@ public class MyMouseEvents {
                 double scale = pane.getScaleX();	// pane.getScaleX() = pane.getScaleY()
                 //System.out.println("MyMouseEvents: pane.scaleX und pane.ScaleY:   "+pane.getScaleX()+"  "+pane.getScaleY());
                 double oldScale = scale;
-                final double minScale = 0.7;
+                final double minScale = 0.3;
                 final double maxScale = 7.0;
                 double zoomFactor;
 
@@ -209,11 +188,14 @@ public class MyMouseEvents {
                 }
                 //System.out.println("scale= "+scale+"  zoomFactor="+zoomFactor);
 
-                // Restrict the scale to a certain range and the set it
+                // Restrict the scale to a certain range and then set it
                 scale = clamp(minScale, scale, maxScale);
                 pane.setScaleX(scale);
                 pane.setScaleY(scale);
+                clipForPane.setScaleX(scale);
+                clipForPane.setScaleY(scale);
 
+                /*
                 for (Node node : graph.getNodeList()) {
                     node.setRadius(node.getRadius() * zoomFactor);
                     //System.out.println("MyMouseEvents: "+node.getNameOfNode()+"   nodeRadius()= "+node.getRadius());
@@ -226,17 +208,21 @@ public class MyMouseEvents {
                 for (Edge edge : graph.getEdgeList()) {
                     edge.setStrokeWidth(edge.getStrokeWidth() * zoomFactor);
                 }
-
+                */
+                
+                
+                
                 // The pivot point must be untransformed, i. e. without scaling
                 double f = (scale / oldScale) - 1.0;
                 double dx = (event.getSceneX() - (pane.getBoundsInParent().getWidth() / 2.0 + pane.getBoundsInParent().getMinX()));
                 double dy = (event.getSceneY() - (pane.getBoundsInParent().getHeight() / 2.0 + pane.getBoundsInParent().getMinY()));
                 pane.setTranslateX(pane.getTranslateX() - f * dx);
                 pane.setTranslateY(pane.getTranslateY() - f * dy);
+                clipForPane.setTranslateX(pane.getTranslateX() - f * dx);
+                clipForPane.setTranslateY(pane.getTranslateY() - f * dy);
 
                 event.consume();
             }
         });
-         */
     } // paneMouseEvent
 }

@@ -94,15 +94,15 @@ public class SpaceObject extends Circle {
     public void setColour(int[] colour) {
         this.setFill(Color.color(colour[0],colour[1],colour[2]));
     }
-
+    
     public double getX() {
-        return x;
+        return this.x;
     }
 
     public double getY() {
-        return y;
+        return this.y;
     }
-
+    
     public double getXNew() {
         return xNew;
     }
@@ -110,15 +110,15 @@ public class SpaceObject extends Circle {
     public double getYNew() {
         return yNew;
     }
-
+    
     public void setX(double value){
-        this.x=value;
+        this.x = value;
     }
 
     public void setY(double value){
-        this.y=value;
+        this.y = value;
     }
-
+    
     public void setXNew(double xNew) {
         this.xNew = xNew;
     }
@@ -148,13 +148,13 @@ public class SpaceObject extends Circle {
     }
 
     public Vector getPositionVector(){
-        return new Vector(this.x,this.y);
+        return new Vector(this.x, this.y);
     }
 
     
     public void addPositionVectorToCoordinates(Vector v){
-        this.xNew = this.x+v.x();
-        this.yNew = this.y+v.y();
+        this.xNew = this.x + v.getX();
+        this.yNew = this.y + v.getY();
     }
 
     public void setNewCoordinates(){
@@ -167,7 +167,7 @@ public class SpaceObject extends Circle {
             c.setFill(this.getFill());
             this.trajectory.add(0, c);
             // We need Platform.runlater() in order to modify the JavaFX GUI thread
-            Platform.runLater(() -> this.gui.getPaneDraw().getChildren().add(c));
+            /*Platform.runLater(() -> this.gui.getPaneDraw().getChildren().add(c));
             while ( this.trajectory.size() > (int) this.gui.getSliderTrajectoryLength().getValue() ) {
                 // some circle objects remain on the pane, so, make them at least
                 // fully translucent
@@ -175,9 +175,22 @@ public class SpaceObject extends Circle {
                 // delete from pane and trajectory
                 Platform.runLater(() -> this.gui.getPaneDraw().getChildren().remove(this.trajectory.get(this.trajectory.size()-1)));
                 this.trajectory.remove(this.trajectory.size()-1);
-            }
+            }*/
+            Thread thread = new Thread() {
+                @Override public void run() {
+                    Platform.runLater(() -> gui.getPaneDraw().getChildren().add(c));
+                    while ( trajectory.size() > (int) gui.getSliderTrajectoryLength().getValue() ) {
+                        // some circle objects remain on the pane, so, make them at least
+                        // fully translucent
+                        trajectory.get(trajectory.size()-1).setOpacity(0.0);
+                        // delete from pane and trajectory
+                        Platform.runLater(() -> gui.getPaneDraw().getChildren().remove(trajectory.get(trajectory.size()-1)));
+                        trajectory.remove(trajectory.size()-1);
+                    }
+                }
+            };
+            thread.start();
         }
-        
         this.x = this.xNew;
         this.y = this.yNew;
         this.velocityVector = this.velocityVectorNew;

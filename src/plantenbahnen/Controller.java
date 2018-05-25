@@ -72,7 +72,7 @@ public class Controller implements Initializable {
         });
 
         // Set the mouse events for the pane
-	//MyMouseEvents.paneMouseEvents(gui.getPaneDraw());
+	//MyMouseEvents.paneMouseEvents(gui.getPaneDraw(), gui.getRectangleClipForPane());
         
         anchorPane.widthProperty().addListener((ov, oldValue, newValue) -> {
             paneDraw.setPrefWidth(newValue.doubleValue() - paneDraw.getLayoutX() - paneControls.getPrefWidth());
@@ -212,8 +212,9 @@ public class Controller implements Initializable {
             if ( gui.getSimulationStatus() == 1 ) {
                 simulationWasRunning = true;
                 startCalc.stop();
+                startCalc.getThread().join();
             }
-
+            
             // Verschiebe das gesamte System so, dass der Massenschwerpunkt des
             // Systems in der Mitte ist. Berechnen des Massenschwerpunkts:
             double totalMass = 0.0;
@@ -226,7 +227,6 @@ public class Controller implements Initializable {
             }
             double xSP = massTimesCoordinateX / totalMass;
             double ySP = massTimesCoordinateY / totalMass;
-            //System.out.println("xSP="+xSP+"   ySP="+ySP);
             
             // Move the pane by the difference of the mass center and the center of the pane
             double diffToCenterX = 0.0;
@@ -241,6 +241,8 @@ public class Controller implements Initializable {
             } else {
                 diffToCenterY = gui.getPaneDraw().getLayoutY() * -1.0 + gui.getPaneHalfHeight() - ySP;
             }
+            //diffToCenterX = gui.getPaneHalfWidth() - xSP;
+            //diffToCenterY = gui.getPaneHalfHeight() - ySP;
             
             final double diffX = diffToCenterX;
             final double diffY = diffToCenterY;
@@ -259,8 +261,32 @@ public class Controller implements Initializable {
                     }
                 }
             };
+            /*Thread thread = new Thread() {
+                @Override public void run() {
+                    if ( ! this.isInterrupted() ) {
+                        Platform.runLater(new Runnable() {
+                            @Override public void run() {
+                                for (SpaceObject so: universe) {
+                                    //so.relocate(so.getCenterX()+diffX, so.getCenterY()+diffY);
+                                    so.setCenterX(so.getCenterX()+diffX);
+                                    so.setCenterY(so.getCenterY()+diffY);
+                                    so.setX((so.getCenterX()-gui.getPaneHalfWidth()) / gui.getScaleFactor());
+                                    so.setY((so.getCenterY()-gui.getPaneHalfHeight()) / gui.getScaleFactor());
+                                    
+                                    for (Circle c: so.getTrajectory()) {
+                                        c.relocate(c.getCenterX()+diffX, c.getCenterY()+diffY);
+                                        //c.setCenterX(c.getCenterX()+diffX);
+                                        //c.setCenterY(c.getCenterY()+diffY);
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+            };*/
             thread.start();
-                
+            thread.join();
+            
             // Restart the simulation if it was running
             if ( simulationWasRunning ) {
                 startCalc.start();
@@ -278,6 +304,7 @@ public class Controller implements Initializable {
             if ( gui.getSimulationStatus() == 1 ) {
                 simulationWasRunning = true;
                 startCalc.stop();
+                startCalc.getThread().join();
             }
             for (SpaceObject planet: universe){
                 planet.setDrawTrajectory(false);
@@ -286,6 +313,7 @@ public class Controller implements Initializable {
                         paneDraw.getChildren().remove(c);
                     }
                 }
+                planet.getTrajectory().clear();
             }
             // Restart the simulation if it was running
             if ( simulationWasRunning ) {

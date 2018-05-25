@@ -23,8 +23,7 @@ public class Draw {
             }
         }
 
-        //gui.getPaneDraw().setClip(gui.getRectangleClipForPane());;
-        //System.out.println(gui.getRectangleClipForPane().getWidth() + " " + gui.getRectangleClipForPane().getHeight());
+        gui.getPaneDraw().setClip(gui.getRectangleClipForPane());;
         
         AnimationTimer animation = new AnimationTimer() {
             @Override

@@ -71,15 +71,15 @@ public class Berechnungen implements Runnable{
     }
 
     void start(){
-        if (t == null || t.getState() == TERMINATED){
+        if ( t == null || t.getState() == TERMINATED ){
             t = new Thread(this);
             t.start();
             gui.setSimulationStatus(1);
-        }
+        } 
     }
     
     void stop(){
-        this.runtime = false;
+        this.runtime = false; // run() will finish and start again when start() ist invoked
         gui.setSimulationStatus(0);
     }
 
@@ -90,5 +90,9 @@ public class Berechnungen implements Runnable{
 
     public double getDeltaTime() {
         return this.deltaTime;
+    }
+    
+    public Thread getThread() {
+        return this.t;
     }
 }
