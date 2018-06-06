@@ -102,7 +102,7 @@ public class Controller implements Initializable {
         scenariosToChose = FXCollections.observableArrayList();
 	scenariosToChose.add(" ");
         scenariosToChose.add("Drei Planeten");
-        scenariosToChose.add("Testfall: Erde um Sonne");
+        scenariosToChose.add("Testfall: Kleines Sonnensystem");
         scenariosToChose.add("Vier Planeten #1");
         scenariosToChose.add("Vier Planeten #2");
 	choiceBox_scenario.setItems(scenariosToChose);
@@ -137,7 +137,7 @@ public class Controller implements Initializable {
                 SpaceObject moon = new SpaceObject("moon", 350, 550, 7970000000000.4, nF2, 3, new int[]{0,0,255}, gui, universe);
                 universe.add(moon);
                 Draw.draw(gui, universe);
-            } else if ( choiceBox_scenario.getValue() == "Testfall: Erde um Sonne" ) {
+            } else if ( choiceBox_scenario.getValue() == "Testfall: Kleines Sonnensystem" ) {
                 /*
                 This case simulates real conditions - including sun and earth -
                 using values for mass and distance as in reality:
@@ -151,16 +151,22 @@ public class Controller implements Initializable {
                 Ergebnis: Mit dem bloßen Auge ist eine Kreisbahn erkennbar. Es ist aber vermutlich
                 eine Ellipse.
                 */
-                SpaceObject sun = new SpaceObject("sun", 0, 0, 1.984 * Math.pow(10,30), new Vector(), 15, new int[]{0,0,255}, gui, universe);
+                SpaceObject sun = new SpaceObject("sun", 0, 0, 1.984 * Math.pow(10,30), new Vector(), 15, new int[]{255, 255, 0}, gui, universe);
                 universe.add(sun);
-                Vector nF = new Vector(0, -1, 30000.0);
-                SpaceObject earth = new SpaceObject("earth", 152.0 * Math.pow(10,9), 0, 5.974 * Math.pow(10,24), nF, 7, new int[]{0,255,0}, gui, universe);
+                Vector nF = new Vector(0, -1, 29290.0);
+                SpaceObject earth = new SpaceObject("earth", 152.0 * Math.pow(10,9), 0, 5.974 * Math.pow(10,24), nF, 7, new int[]{0, 0, 255}, gui, universe);
                 universe.add(earth);
+                Vector nF_mars = new Vector(0, -1, 21970.0);
+                SpaceObject mars = new SpaceObject("mars", 249.0 * Math.pow(10,9), 0, 6.419 * Math.pow(10,23), nF_mars, 7, new int[]{255, 0, 0}, gui, universe);
+                universe.add(mars);
+                Vector nF_venus = new Vector(0, 1, 35020.0);
+                SpaceObject venus = new SpaceObject("venus", 108.9 * Math.pow(10,9), 0, 4.867 * Math.pow(10,24), nF_venus, 7, new int[]{80, 80, 80}, gui, universe);
+                universe.add(venus);
                 
                 // Adjust scale factor and simulation speed settings
                 gui.setScaleFactor(1.0 / Math.pow(10, 9));
                 gui.getSliderSimSpeed().setMin(0.01);
-                gui.getSliderSimSpeed().setMax(10.0);
+                gui.getSliderSimSpeed().setMax(100.0);
                 gui.getSliderSimSpeed().setValue(0.5);
                 Draw.draw(gui, universe);
             } else if ( choiceBox_scenario.getValue() == "Vier Planeten #1" ) {

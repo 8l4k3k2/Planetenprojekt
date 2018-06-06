@@ -8,11 +8,11 @@ public class Berechnungen implements Runnable{
     private Thread t;
     private ArrayList<SpaceObject> universe;
     private boolean runtime;
-    private double deltaTime;
     private double dt;
     private double requestedDT;
     private boolean requestSetDT = false;
     private GuiElements gui;
+    private int anzahlDurchläufe = 0;
 
     Berechnungen(ArrayList<SpaceObject> universe, GuiElements gui) {
         this.universe = universe;
@@ -30,9 +30,11 @@ public class Berechnungen implements Runnable{
             }
 
             for (SpaceObject sO: this.universe) {
-                this.deltaTime = this.dt;
                 moveall(sO);
+                //System.out.println(sO.getName()+": "+sO.getCenterY()+" "+sO.getCenterX()+" "+sO.getVelocityVector().norm());
             }
+            //System.out.println("-----------------");
+            this.anzahlDurchläufe += 1;
             
             for (SpaceObject sO: this.universe) {
                 //sets x=x1,y=y1 and adds Line to trajectory
@@ -54,11 +56,11 @@ public class Berechnungen implements Runnable{
                 totalAccelVector.addToSelf(temp);
             }
         }
-        // Beschleunigungsvektor (a_neu = m * G)
+        // Beschleunigungsvektor (a_neu = F/m = G * SUM(...))
         totalAccelVector.multiplyToSelf(G);
 
-        // Geschwindikeitsvektor (v_neu = a_neu * dt)
-        totalAccelVector.multiplyToSelf(this.deltaTime);
+        // Geschwindikeitsvektor (v_neu = F/m * dt = a_neu * dt)
+        totalAccelVector.multiplyToSelf(this.dt);
 
         // Addiere den alten und den neuen Geschwindigkeitsvektor (temp = v_alt + v_neu)
         Vector temp = sO.getVelocityVector().add(totalAccelVector);
@@ -67,7 +69,7 @@ public class Berechnungen implements Runnable{
         sO.setVelocityVectorNew(temp);
         
         // Setze die neuen Koordinaten (s = v * dt)
-        sO.addPositionVectorToCoordinates(sO.getVelocityVectorNew().multiply(this.deltaTime));
+        sO.addPositionVectorToCoordinates(sO.getVelocityVectorNew().multiply(this.dt));
     }
 
     void start(){
@@ -81,6 +83,7 @@ public class Berechnungen implements Runnable{
     void stop(){
         this.runtime = false; // run() will finish and start again when start() ist invoked
         gui.setSimulationStatus(0);
+        //System.out.println("Zeit seit Start = " + (double)this.anzahlDurchläufe * 0.5 + " s");
     }
 
     public void setDeltaTime(double dt) {
@@ -89,7 +92,7 @@ public class Berechnungen implements Runnable{
     }
 
     public double getDeltaTime() {
-        return this.deltaTime;
+        return this.dt;
     }
     
     public Thread getThread() {
